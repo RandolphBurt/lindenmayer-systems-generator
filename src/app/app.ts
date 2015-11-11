@@ -1,5 +1,7 @@
 import {bootstrap, Component, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
 
+import {LindenmayerSystemProcessor} from './LindenmayerSystemProcessor'
+
 class Rule {
     input: string;
     output: string;
@@ -8,6 +10,17 @@ class LindenmayerSystem {
     axiom: string;
     constants: string;
     rules: Rule[];
+
+    addRule() {
+        if (!this.rules) {
+            this.rules = [];
+        }
+        this.rules.push(new Rule());
+    }
+
+    deleteRule(index: number) {
+        this.rules.splice(index, 1);
+    }
 }
 
 @Component({
@@ -17,7 +30,7 @@ class LindenmayerSystem {
         <div><label>Constants:</label><input [(ng-model)]="lindenmayerSystem.constants"></div>
             <div *ng-for="#rule of lindenmayerSystem.rules; #i = index">
                 <label>Rule {{i + 1}}:</label><input [(ng-model)]="rule.input">
-                <span>=</span>
+                <span>=&gt;</span>
                 <input [(ng-model)]="rule.output">
                 <input type="button" value="X" (click)="deleteRule(i)">
             </div>
@@ -30,17 +43,22 @@ class LindenmayerSystem {
     directives: [CORE_DIRECTIVES, FORM_DIRECTIVES]
 })
 class AppComponent {
-    public lindenmayerSystem:LindenmayerSystem = {
-        axiom: "FX",
-        constants: "",
-        rules: [],
-    };
+
+    constructor(_lindenmayerSystemProcessor:LindenmayerSystemProcessor) {
+        this.lindenmayerSystemProcessor = _lindenmayerSystemProcessor;
+    }
+
+    lindenmayerSystemProcessor:LindenmayerSystemProcessor;
+
+    lindenmayerSystem:LindenmayerSystem = new LindenmayerSystem();
 
     addRule() {
-        this.lindenmayerSystem.rules.push(new Rule());
+        this.lindenmayerSystem.addRule();
     };
     deleteRule(index: number) {
-        this.lindenmayerSystem.rules.splice(index, 1);
+        this.lindenmayerSystem.deleteRule(index);
     }
+
 }
-bootstrap(AppComponent);
+
+bootstrap(AppComponent, [LindenmayerSystemProcessor]);
