@@ -1,27 +1,8 @@
 import {bootstrap, Component, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
 
+import {LindenmayerSystemDefinition} from './LindenmayerSystemDefinition'
 import {LindenmayerSystemProcessor} from './LindenmayerSystemProcessor'
 
-class Rule {
-    input: string;
-    output: string;
-}
-class LindenmayerSystem {
-    axiom: string;
-    constants: string;
-    rules: Rule[];
-
-    addRule() {
-        if (!this.rules) {
-            this.rules = [];
-        }
-        this.rules.push(new Rule());
-    }
-
-    deleteRule(index: number) {
-        this.rules.splice(index, 1);
-    }
-}
 
 @Component({
     selector: 'my-app',
@@ -50,7 +31,7 @@ class AppComponent {
 
     lindenmayerSystemProcessor:LindenmayerSystemProcessor;
 
-    lindenmayerSystem:LindenmayerSystem = new LindenmayerSystem();
+    lindenmayerSystem:LindenmayerSystemDefinition = new LindenmayerSystemDefinition();
 
     addRule() {
         this.lindenmayerSystem.addRule();

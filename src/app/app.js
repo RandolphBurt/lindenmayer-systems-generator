@@ -10,29 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var angular2_1 = require('angular2/angular2');
+var LindenmayerSystemDefinition_1 = require('./LindenmayerSystemDefinition');
 var LindenmayerSystemProcessor_1 = require('./LindenmayerSystemProcessor');
-var Rule = (function () {
-    function Rule() {
-    }
-    return Rule;
-})();
-var LindenmayerSystem = (function () {
-    function LindenmayerSystem() {
-    }
-    LindenmayerSystem.prototype.addRule = function () {
-        if (!this.rules) {
-            this.rules = [];
-        }
-        this.rules.push(new Rule());
-    };
-    LindenmayerSystem.prototype.deleteRule = function (index) {
-        this.rules.splice(index, 1);
-    };
-    return LindenmayerSystem;
-})();
 var AppComponent = (function () {
     function AppComponent(_lindenmayerSystemProcessor) {
-        this.lindenmayerSystem = new LindenmayerSystem();
+        this.lindenmayerSystem = new LindenmayerSystemDefinition_1.LindenmayerSystemDefinition();
         this.lindenmayerSystemProcessor = _lindenmayerSystemProcessor;
     }
     AppComponent.prototype.addRule = function () {
