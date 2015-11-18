@@ -61,7 +61,7 @@ export class LindenmayerSystemValidator {
                     stopProcessing = true;
                 }
 
-                if (definition.constants && definition.constants.indexOf(testRule.input) > -1) {
+                if (this.isCharacterPresentInConstants(testRule.input, definition)) {
                     errorList.push("Character '" + testRule.input + "' is a constant and a rule input");
                     stopProcessing = true;
                 }
@@ -83,16 +83,11 @@ export class LindenmayerSystemValidator {
                 continue;
             }
 
-            var j:number = 0;
-            for (var compareRule of definition.rules) {
-                j++;
-                if (i === j) {
-                    continue;
-                }
-
-                if (compareRule.input === testRule.input && i < j) {
-                    // check i < j to avoid duplicate error messages
-                    errorList.push("There are multiple rules with the same input value of '" + compareRule.input + "'");
+            if (definition.rules.filter((r) => r.input === testRule.input).length > 1) {
+                var error = "There are multiple rules with the same input value of '" + testRule.input + "'";
+                if (errorList.indexOf(error) === -1) {
+                    // we'll get the same error raised twice (e.g. A.input === B.input and vice versa) so we only add once
+                    errorList.push(error);
                 }
             }
         }
