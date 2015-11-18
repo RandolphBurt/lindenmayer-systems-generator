@@ -12,10 +12,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var angular2_1 = require('angular2/angular2');
 var LindenmayerSystemDefinition_1 = require('./LindenmayerSystemDefinition');
 var LindenmayerSystemProcessor_1 = require('./LindenmayerSystemProcessor');
+var LindenmayerSystemValidator_1 = require("./LindenmayerSystemValidator");
 var AppComponent = (function () {
-    function AppComponent(_lindenmayerSystemProcessor) {
+    function AppComponent(_lindenmayerSystemProcessor, _lindenmayerSystemValidator) {
         this.lindenmayerSystem = new LindenmayerSystemDefinition_1.LindenmayerSystemDefinition();
         this.lindenmayerSystemProcessor = _lindenmayerSystemProcessor;
+        this.lindenmayerSystemValidator = _lindenmayerSystemValidator;
     }
     AppComponent.prototype.addRule = function () {
         this.lindenmayerSystem.addRule();
@@ -31,7 +33,7 @@ var AppComponent = (function () {
             styles: ["\n    "],
             directives: [angular2_1.CORE_DIRECTIVES, angular2_1.FORM_DIRECTIVES]
         }), 
-        __metadata('design:paramtypes', [LindenmayerSystemProcessor_1.LindenmayerSystemProcessor])
+        __metadata('design:paramtypes', [LindenmayerSystemProcessor_1.LindenmayerSystemProcessor, LindenmayerSystemValidator_1.LindenmayerSystemValidator])
     ], AppComponent);
     return AppComponent;
 })();

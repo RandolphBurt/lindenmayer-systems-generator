@@ -2,6 +2,7 @@ import {bootstrap, Component, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/a
 
 import {LindenmayerSystemDefinition} from './LindenmayerSystemDefinition'
 import {LindenmayerSystemProcessor} from './LindenmayerSystemProcessor'
+import {LindenmayerSystemValidator} from "./LindenmayerSystemValidator";
 
 
 @Component({
@@ -25,11 +26,14 @@ import {LindenmayerSystemProcessor} from './LindenmayerSystemProcessor'
 })
 class AppComponent {
 
-    constructor(_lindenmayerSystemProcessor:LindenmayerSystemProcessor) {
+    constructor(_lindenmayerSystemProcessor:LindenmayerSystemProcessor,
+                _lindenmayerSystemValidator:LindenmayerSystemValidator) {
         this.lindenmayerSystemProcessor = _lindenmayerSystemProcessor;
+        this.lindenmayerSystemValidator = _lindenmayerSystemValidator;
     }
 
     lindenmayerSystemProcessor:LindenmayerSystemProcessor;
+    lindenmayerSystemValidator:LindenmayerSystemValidator;
 
     lindenmayerSystem:LindenmayerSystemDefinition = new LindenmayerSystemDefinition();
 

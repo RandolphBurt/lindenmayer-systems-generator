@@ -1,11 +1,11 @@
 import {LindenmayerSystemDefinition} from "./LindenmayerSystemDefinition";
-import {LindenmayerSystemProcessor} from "./LindenmayerSystemProcessor";
-import {ValidationResult} from "./LindenmayerSystemProcessor";
+import {LindenmayerSystemValidator} from "./LindenmayerSystemValidator";
+import {ValidationResult} from "./LindenmayerSystemValidator";
 import {LindenmayerSystemRule} from "./LindenmayerSystemDefinition";
 
-describe('LindenmayerSystemProcessor', () => {
+describe('LindenmayerSystemValidator', () => {
     describe('validate', () => {
-        var processor = new LindenmayerSystemProcessor();
+        var validator = new LindenmayerSystemValidator();
         var definition = new LindenmayerSystemDefinition();
 
         beforeEach(function() {
@@ -21,7 +21,7 @@ describe('LindenmayerSystemProcessor', () => {
                 new LindenmayerSystemRule("a", "b"),
                 new LindenmayerSystemRule("b", "a"),
             ];
-            var validationResult = processor.validate(definition);
+            var validationResult = validator.validate(definition);
             expect(validationResult.result).toEqual(false);
             expect(validationResult.errors.length).toEqual(2);
             expect(validationResult.errors).toContain("No rules/constants found for axiom value 'f'");
@@ -31,7 +31,7 @@ describe('LindenmayerSystemProcessor', () => {
         it('No rules for constant axiom is OK', () => {
             definition.constants = "f";
             definition.rules = [];
-            var validationResult = processor.validate(definition);
+            var validationResult = validator.validate(definition);
             expect(validationResult.result).toEqual(true);
             expect(validationResult.errors.length).toEqual(0);
         });
@@ -41,7 +41,7 @@ describe('LindenmayerSystemProcessor', () => {
             definition.rules = [
                 new LindenmayerSystemRule("f", "[]")
             ];
-            var validationResult = processor.validate(definition);
+            var validationResult = validator.validate(definition);
             expect(validationResult.result).toEqual(false);
             expect(validationResult.errors.length).toEqual(1);
             expect(validationResult.errors).toContain("Character 'f' is a constant and a rule input");
@@ -53,7 +53,7 @@ describe('LindenmayerSystemProcessor', () => {
                 new LindenmayerSystemRule("f", "fa"),
                 new LindenmayerSystemRule("a", "fb"),
             ];
-            var validationResult = processor.validate(definition);
+            var validationResult = validator.validate(definition);
             expect(validationResult.result).toEqual(false);
             expect(validationResult.errors.length).toEqual(1);
             expect(validationResult.errors).toContain("Character 'b' in rule 2 does not map to a constant or rule");
@@ -68,7 +68,7 @@ describe('LindenmayerSystemProcessor', () => {
                 new LindenmayerSystemRule("a", "b"),
                 new LindenmayerSystemRule("b", "c"),
             ];
-            var validationResult = processor.validate(definition);
+            var validationResult = validator.validate(definition);
             expect(validationResult.result).toEqual(false);
             expect(validationResult.errors.length).toEqual(2);
             expect(validationResult.errors).toContain("Constant '[' is not part of the axiom and appears in no rules");
@@ -77,7 +77,7 @@ describe('LindenmayerSystemProcessor', () => {
 
         it('An empty axiom should error', () => {
             definition.axiom = "";
-            var validationResult = processor.validate(definition);
+            var validationResult = validator.validate(definition);
             expect(validationResult.result).toEqual(false);
             expect(validationResult.errors.length).toEqual(1);
             expect(validationResult.errors).toContain("No axiom has been defined");
@@ -92,7 +92,7 @@ describe('LindenmayerSystemProcessor', () => {
                 new LindenmayerSystemRule("", "d"),
             ];
 
-            var validationResult = processor.validate(definition);
+            var validationResult = validator.validate(definition);
             expect(validationResult.result).toEqual(false);
             expect(validationResult.errors.length).toEqual(1);
             expect(validationResult.errors).toContain("Rule input must be one character in length - rule 2's input is empty");
@@ -106,7 +106,7 @@ describe('LindenmayerSystemProcessor', () => {
                 new LindenmayerSystemRule("d", ""),
             ];
 
-            var validationResult = processor.validate(definition);
+            var validationResult = validator.validate(definition);
             expect(validationResult.result).toEqual(false);
             expect(validationResult.errors.length).toEqual(1);
             expect(validationResult.errors).toContain("Rule output must not be empty - rule 2's output is empty");
@@ -121,7 +121,7 @@ describe('LindenmayerSystemProcessor', () => {
                 new LindenmayerSystemRule("gg", "d")
             ];
 
-            var validationResult = processor.validate(definition);
+            var validationResult = validator.validate(definition);
             expect(validationResult.result).toEqual(false);
             expect(validationResult.errors.length).toEqual(1);
             expect(validationResult.errors).toContain("Rule input must be one character in length - rule 3's input is too long");
@@ -135,7 +135,7 @@ describe('LindenmayerSystemProcessor', () => {
                 new LindenmayerSystemRule("f", "d")
             ];
 
-            var validationResult = processor.validate(definition);
+            var validationResult = validator.validate(definition);
             expect(validationResult.result).toEqual(false);
             expect(validationResult.errors.length).toEqual(1);
             expect(validationResult.errors).toContain("There are multiple rules with the same input value of 'f'");
@@ -148,7 +148,7 @@ describe('LindenmayerSystemProcessor', () => {
                 new LindenmayerSystemRule("a", "a"),
                 new LindenmayerSystemRule("b", "a"),
             ];
-            var validationResult = processor.validate(definition);
+            var validationResult = validator.validate(definition);
             expect(validationResult.result).toEqual(false);
             expect(validationResult.errors.length).toEqual(1);
             expect(validationResult.errors).toContain("Rule 2 has an input equal to the output");
@@ -161,7 +161,7 @@ describe('LindenmayerSystemProcessor', () => {
                 new LindenmayerSystemRule("1", "11"),
                 new LindenmayerSystemRule("0", "1[0]0"),
             ];
-            var validationResult = processor.validate(definition);
+            var validationResult = validator.validate(definition);
             expect(validationResult.result).toEqual(true);
             expect(validationResult.errors.length).toEqual(0);
         });
@@ -173,7 +173,7 @@ describe('LindenmayerSystemProcessor', () => {
                 new LindenmayerSystemRule("F", "FF"),
                 new LindenmayerSystemRule("X", "F-[[X]+X]+F[+FX]-X"),
             ];
-            var validationResult = processor.validate(definition);
+            var validationResult = validator.validate(definition);
             expect(validationResult.result).toEqual(true);
             expect(validationResult.errors.length).toEqual(0);
         });
