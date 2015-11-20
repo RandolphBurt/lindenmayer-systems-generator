@@ -37,5 +37,5 @@ var AppComponent = (function () {
     ], AppComponent);
     return AppComponent;
 })();
-angular2_1.bootstrap(AppComponent, [LindenmayerSystemProcessor_1.LindenmayerSystemProcessor]);
+angular2_1.bootstrap(AppComponent, [LindenmayerSystemProcessor_1.LindenmayerSystemProcessor, LindenmayerSystemValidator_1.LindenmayerSystemValidator]);
 //# sourceMappingURL=app.js.map

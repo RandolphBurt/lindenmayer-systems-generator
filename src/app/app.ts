@@ -46,4 +46,4 @@ class AppComponent {
 
 }
 
-bootstrap(AppComponent, [LindenmayerSystemProcessor]);
+bootstrap(AppComponent, [LindenmayerSystemProcessor, LindenmayerSystemValidator]);
