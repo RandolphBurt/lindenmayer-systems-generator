@@ -1,10 +1,10 @@
 import {Inject} from 'angular2/core';
 
-import {ILindenmayerSystemResultParser} from "./ILindenmayerSystemResultParser";
+import {ILindenmayerSystemResultProcessor} from "./ILindenmayerSystemResultProcessor";
 import {PositionCalculator} from "./PositionCalculator";
 import {PositionData} from "./PositionData";
 
-export class LindenmayerSystemResultBoundaryCalculator implements ILindenmayerSystemResultParser {
+export class LindenmayerSystemResultBoundaryCalculator implements ILindenmayerSystemResultProcessor {
     constructor(@Inject(PositionCalculator) _positionCalculator:PositionCalculator) {
         this.positionCalculator = _positionCalculator;
     }
