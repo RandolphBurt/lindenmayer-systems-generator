@@ -8,7 +8,7 @@ describe('LindenmayerSystemValidator', function () {
         beforeEach(function () {
             definition.axiom = "f";
             definition.constants = "";
-            definition.rules = [];
+            definition.rules = null;
         });
         it('No rules for non constant axiom should error', function () {
             definition.axiom = "fad";
@@ -71,6 +71,22 @@ describe('LindenmayerSystemValidator', function () {
             expect(validationResult.result).toEqual(false);
             expect(validationResult.errors.length).toEqual(1);
             expect(validationResult.errors).toContain("No axiom has been defined");
+        });
+        it('Zero value axiom and constants should not error', function () {
+            definition.axiom = "0";
+            definition.constants = "0";
+            var validationResult = validator.validate(definition);
+            expect(validationResult.result).toEqual(true);
+            expect(validationResult.errors.length).toEqual(0);
+        });
+        it('Zero value axiom and rules should not error', function () {
+            definition.axiom = "0";
+            definition.rules = [
+                new LindenmayerSystemDefinition_2.LindenmayerSystemRule("0", "00")
+            ];
+            var validationResult = validator.validate(definition);
+            expect(validationResult.result).toEqual(true);
+            expect(validationResult.errors.length).toEqual(0);
         });
         it('An empty rule input should error', function () {
             definition.axiom = "fd";

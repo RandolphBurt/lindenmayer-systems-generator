@@ -37,43 +37,33 @@ var LindenmayerSystemValidator = (function () {
             }
         }
         var i = 0;
-        for (var _d = 0, _e = definition.rules; _d < _e.length; _d++) {
+        for (var _d = 0, _e = definition.rules || []; _d < _e.length; _d++) {
             var testRule = _e[_d];
             i++;
-            var stopProcessing = false;
             if (!testRule.input) {
                 errorList.push("Rule input must be one character in length - rule " + i + "'s input is empty");
-                stopProcessing = true;
             }
             else {
                 if (testRule.input.length > 1) {
                     errorList.push("Rule input must be one character in length - rule " + i + "'s input is too long");
-                    stopProcessing = true;
                 }
                 if (testRule.input.length > 0 && testRule.input === testRule.output) {
                     errorList.push("Rule " + i + " has an input equal to the output");
-                    stopProcessing = true;
                 }
                 if (this.isCharacterPresentInConstants(testRule.input, definition)) {
                     errorList.push("Character '" + testRule.input + "' is a constant and a rule input");
-                    stopProcessing = true;
                 }
             }
             if (!testRule.output) {
                 errorList.push("Rule output must not be empty - rule " + i + "'s output is empty");
-                stopProcessing = true;
             }
             else {
                 for (var _f = 0, _g = testRule.output; _f < _g.length; _f++) {
                     var outputChar = _g[_f];
                     if (!this.isCharacterPresentInConstantsOrRuleInput(outputChar, definition)) {
                         errorList.push("Character '" + outputChar + "' in rule " + i + " does not map to a constant or rule");
-                        stopProcessing = true;
                     }
                 }
-            }
-            if (stopProcessing) {
-                continue;
             }
             if (definition.rules.filter(function (r) { return r.input === testRule.input; }).length > 1) {
                 var error = "There are multiple rules with the same input value of '" + testRule.input + "'";

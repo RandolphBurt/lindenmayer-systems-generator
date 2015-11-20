@@ -3,14 +3,17 @@ import {bootstrap, Component, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/a
 import {LindenmayerSystemDefinition} from './LindenmayerSystemDefinition'
 import {LindenmayerSystemProcessor} from './LindenmayerSystemProcessor'
 import {LindenmayerSystemValidator} from "./LindenmayerSystemValidator";
+import {PositionCalculator} from "./PositionCalculator";
+import {LindenmayerSystemResultBoundaryCalculator} from "./LindenmayerSystemResultBoundaryCalculator";
+import {LindenmayerSystemResultRenderer} from "./LindenmayerSystemResultRenderer";
 
 
 @Component({
     selector: 'my-app',
     template: `
-        <div><label>Axiom:</label><input [(ng-model)]="lindenmayerSystem.axiom"></div>
-        <div><label>Constants:</label><input [(ng-model)]="lindenmayerSystem.constants"></div>
-            <div *ng-for="#rule of lindenmayerSystem.rules; #i = index">
+        <div><label>Axiom:</label><input [(ng-model)]="lindenmayerSystemDefinition.axiom"></div>
+        <div><label>Constants:</label><input [(ng-model)]="lindenmayerSystemDefinition.constants"></div>
+            <div *ng-for="#rule of lindenmayerSystemDefinition.rules; #i = index">
                 <label>Rule {{i + 1}}:</label><input [(ng-model)]="rule.input">
                 <span>=&gt;</span>
                 <input [(ng-model)]="rule.output">
@@ -18,6 +21,13 @@ import {LindenmayerSystemValidator} from "./LindenmayerSystemValidator";
             </div>
         <div>
             <input type="button" value="Add Rule" (click)="addRule()">
+        </div>
+        <div>
+            <input [(ng-model)]="iterationCount">
+            <input type="button" value="Draw" (click)="processDefinition()">
+        </div>
+        <div>
+            <canvas id="canvas" width="500" height="500"></canvas>
         </div>
     `,
     styles: [`
@@ -35,15 +45,29 @@ class AppComponent {
     lindenmayerSystemProcessor:LindenmayerSystemProcessor;
     lindenmayerSystemValidator:LindenmayerSystemValidator;
 
-    lindenmayerSystem:LindenmayerSystemDefinition = new LindenmayerSystemDefinition();
+    lindenmayerSystemDefinition:LindenmayerSystemDefinition = new LindenmayerSystemDefinition();
+    iterationCount:number;
 
     addRule() {
-        this.lindenmayerSystem.addRule();
+        this.lindenmayerSystemDefinition.addRule();
     };
     deleteRule(index: number) {
-        this.lindenmayerSystem.deleteRule(index);
-    }
-
+        this.lindenmayerSystemDefinition.deleteRule(index);
+    };
+    processDefinition() {
+        var validationResult = this.lindenmayerSystemValidator.validate(this.lindenmayerSystemDefinition);
+        if (validationResult.result === true && this.iterationCount > 0) {
+            this.lindenmayerSystemProcessor.process(this.lindenmayerSystemDefinition, this.iterationCount);
+        } else {
+            // TODO: show errors etc
+        }
+    };
 }
 
-bootstrap(AppComponent, [LindenmayerSystemProcessor, LindenmayerSystemValidator]);
+bootstrap(AppComponent, [
+    LindenmayerSystemProcessor,
+    LindenmayerSystemValidator,
+    PositionCalculator,
+    LindenmayerSystemResultBoundaryCalculator,
+    LindenmayerSystemResultRenderer
+]);

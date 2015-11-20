@@ -13,23 +13,36 @@ var angular2_1 = require('angular2/angular2');
 var LindenmayerSystemDefinition_1 = require('./LindenmayerSystemDefinition');
 var LindenmayerSystemProcessor_1 = require('./LindenmayerSystemProcessor');
 var LindenmayerSystemValidator_1 = require("./LindenmayerSystemValidator");
+var PositionCalculator_1 = require("./PositionCalculator");
+var LindenmayerSystemResultBoundaryCalculator_1 = require("./LindenmayerSystemResultBoundaryCalculator");
+var LindenmayerSystemResultRenderer_1 = require("./LindenmayerSystemResultRenderer");
 var AppComponent = (function () {
     function AppComponent(_lindenmayerSystemProcessor, _lindenmayerSystemValidator) {
-        this.lindenmayerSystem = new LindenmayerSystemDefinition_1.LindenmayerSystemDefinition();
+        this.lindenmayerSystemDefinition = new LindenmayerSystemDefinition_1.LindenmayerSystemDefinition();
         this.lindenmayerSystemProcessor = _lindenmayerSystemProcessor;
         this.lindenmayerSystemValidator = _lindenmayerSystemValidator;
     }
     AppComponent.prototype.addRule = function () {
-        this.lindenmayerSystem.addRule();
+        this.lindenmayerSystemDefinition.addRule();
     };
     ;
     AppComponent.prototype.deleteRule = function (index) {
-        this.lindenmayerSystem.deleteRule(index);
+        this.lindenmayerSystemDefinition.deleteRule(index);
     };
+    ;
+    AppComponent.prototype.processDefinition = function () {
+        var validationResult = this.lindenmayerSystemValidator.validate(this.lindenmayerSystemDefinition);
+        if (validationResult.result === true && this.iterationCount > 0) {
+            this.lindenmayerSystemProcessor.process(this.lindenmayerSystemDefinition, this.iterationCount);
+        }
+        else {
+        }
+    };
+    ;
     AppComponent = __decorate([
         angular2_1.Component({
             selector: 'my-app',
-            template: "\n        <div><label>Axiom:</label><input [(ng-model)]=\"lindenmayerSystem.axiom\"></div>\n        <div><label>Constants:</label><input [(ng-model)]=\"lindenmayerSystem.constants\"></div>\n            <div *ng-for=\"#rule of lindenmayerSystem.rules; #i = index\">\n                <label>Rule {{i + 1}}:</label><input [(ng-model)]=\"rule.input\">\n                <span>=&gt;</span>\n                <input [(ng-model)]=\"rule.output\">\n                <input type=\"button\" value=\"X\" (click)=\"deleteRule(i)\">\n            </div>\n        <div>\n            <input type=\"button\" value=\"Add Rule\" (click)=\"addRule()\">\n        </div>\n    ",
+            template: "\n        <div><label>Axiom:</label><input [(ng-model)]=\"lindenmayerSystemDefinition.axiom\"></div>\n        <div><label>Constants:</label><input [(ng-model)]=\"lindenmayerSystemDefinition.constants\"></div>\n            <div *ng-for=\"#rule of lindenmayerSystemDefinition.rules; #i = index\">\n                <label>Rule {{i + 1}}:</label><input [(ng-model)]=\"rule.input\">\n                <span>=&gt;</span>\n                <input [(ng-model)]=\"rule.output\">\n                <input type=\"button\" value=\"X\" (click)=\"deleteRule(i)\">\n            </div>\n        <div>\n            <input type=\"button\" value=\"Add Rule\" (click)=\"addRule()\">\n        </div>\n        <div>\n            <input [(ng-model)]=\"iterationCount\">\n            <input type=\"button\" value=\"Draw\" (click)=\"processDefinition()\">\n        </div>\n        <div>\n            <canvas id=\"canvas\" width=\"500\" height=\"500\"></canvas>\n        </div>\n    ",
             styles: ["\n    "],
             directives: [angular2_1.CORE_DIRECTIVES, angular2_1.FORM_DIRECTIVES]
         }), 
@@ -37,5 +50,11 @@ var AppComponent = (function () {
     ], AppComponent);
     return AppComponent;
 })();
-angular2_1.bootstrap(AppComponent, [LindenmayerSystemProcessor_1.LindenmayerSystemProcessor, LindenmayerSystemValidator_1.LindenmayerSystemValidator]);
+angular2_1.bootstrap(AppComponent, [
+    LindenmayerSystemProcessor_1.LindenmayerSystemProcessor,
+    LindenmayerSystemValidator_1.LindenmayerSystemValidator,
+    PositionCalculator_1.PositionCalculator,
+    LindenmayerSystemResultBoundaryCalculator_1.LindenmayerSystemResultBoundaryCalculator,
+    LindenmayerSystemResultRenderer_1.LindenmayerSystemResultRenderer
+]);
 //# sourceMappingURL=app.js.map

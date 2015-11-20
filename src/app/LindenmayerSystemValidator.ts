@@ -43,44 +43,32 @@ export class LindenmayerSystemValidator {
         }
 
         var i:number = 0;
-        for (var testRule of definition.rules) {
+        for (var testRule of definition.rules || []) {
             i++;
-            var stopProcessing:boolean = false;
-
             if (!testRule.input) {
                 errorList.push("Rule input must be one character in length - rule " + i + "'s input is empty");
-                stopProcessing = true;
             } else {
                 if (testRule.input.length > 1) {
                     errorList.push("Rule input must be one character in length - rule " + i + "'s input is too long");
-                    stopProcessing = true;
                 }
 
                 if (testRule.input.length > 0 && testRule.input === testRule.output) {
                     errorList.push("Rule " + i + " has an input equal to the output");
-                    stopProcessing = true;
                 }
 
                 if (this.isCharacterPresentInConstants(testRule.input, definition)) {
                     errorList.push("Character '" + testRule.input + "' is a constant and a rule input");
-                    stopProcessing = true;
                 }
             }
 
             if (!testRule.output) {
                 errorList.push("Rule output must not be empty - rule " + i + "'s output is empty");
-                stopProcessing = true;
             } else {
                 for (var outputChar of testRule.output) {
                     if (!this.isCharacterPresentInConstantsOrRuleInput(outputChar, definition)) {
                         errorList.push("Character '" + outputChar + "' in rule " + i + " does not map to a constant or rule");
-                        stopProcessing = true;
                     }
                 }
-            }
-
-            if (stopProcessing) {
-                continue;
             }
 
             if (definition.rules.filter((r) => r.input === testRule.input).length > 1) {
