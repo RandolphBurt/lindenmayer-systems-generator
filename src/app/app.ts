@@ -1,7 +1,7 @@
 import {bootstrap, Component, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
 
 import {LindenmayerSystemDefinition} from './LindenmayerSystemDefinition'
-import {LindenmayerSystemProcessor} from './LindenmayerSystemProcessor'
+import {LindenmayerSystemRulesProcessor} from './LindenmayerSystemRulesProcessor'
 import {LindenmayerSystemValidator} from "./LindenmayerSystemValidator";
 import {PositionCalculator} from "./PositionCalculator";
 import {LindenmayerSystemResultBoundaryCalculator} from "./LindenmayerSystemResultBoundaryCalculator";
@@ -36,13 +36,13 @@ import {LindenmayerSystemResultRenderer} from "./LindenmayerSystemResultRenderer
 })
 class AppComponent {
 
-    constructor(_lindenmayerSystemProcessor:LindenmayerSystemProcessor,
+    constructor(_lindenmayerSystemRulesProcessor:LindenmayerSystemRulesProcessor,
                 _lindenmayerSystemValidator:LindenmayerSystemValidator) {
-        this.lindenmayerSystemProcessor = _lindenmayerSystemProcessor;
+        this.lindenmayerSystemRulesProcessor = _lindenmayerSystemRulesProcessor;
         this.lindenmayerSystemValidator = _lindenmayerSystemValidator;
     }
 
-    lindenmayerSystemProcessor:LindenmayerSystemProcessor;
+    lindenmayerSystemRulesProcessor:LindenmayerSystemRulesProcessor;
     lindenmayerSystemValidator:LindenmayerSystemValidator;
 
     lindenmayerSystemDefinition:LindenmayerSystemDefinition = new LindenmayerSystemDefinition();
@@ -57,7 +57,7 @@ class AppComponent {
     processDefinition() {
         var validationResult = this.lindenmayerSystemValidator.validate(this.lindenmayerSystemDefinition);
         if (validationResult.result === true && this.iterationCount > 0) {
-            this.lindenmayerSystemProcessor.process(this.lindenmayerSystemDefinition, this.iterationCount);
+            this.lindenmayerSystemRulesProcessor.process(this.lindenmayerSystemDefinition, this.iterationCount);
         } else {
             // TODO: show errors etc
         }
@@ -65,7 +65,7 @@ class AppComponent {
 }
 
 bootstrap(AppComponent, [
-    LindenmayerSystemProcessor,
+    LindenmayerSystemRulesProcessor,
     LindenmayerSystemValidator,
     PositionCalculator,
     LindenmayerSystemResultBoundaryCalculator,

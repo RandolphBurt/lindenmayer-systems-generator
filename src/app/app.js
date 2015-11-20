@@ -11,15 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var angular2_1 = require('angular2/angular2');
 var LindenmayerSystemDefinition_1 = require('./LindenmayerSystemDefinition');
-var LindenmayerSystemProcessor_1 = require('./LindenmayerSystemProcessor');
+var LindenmayerSystemRulesProcessor_1 = require('./LindenmayerSystemRulesProcessor');
 var LindenmayerSystemValidator_1 = require("./LindenmayerSystemValidator");
 var PositionCalculator_1 = require("./PositionCalculator");
 var LindenmayerSystemResultBoundaryCalculator_1 = require("./LindenmayerSystemResultBoundaryCalculator");
 var LindenmayerSystemResultRenderer_1 = require("./LindenmayerSystemResultRenderer");
 var AppComponent = (function () {
-    function AppComponent(_lindenmayerSystemProcessor, _lindenmayerSystemValidator) {
+    function AppComponent(_lindenmayerSystemRulesProcessor, _lindenmayerSystemValidator) {
         this.lindenmayerSystemDefinition = new LindenmayerSystemDefinition_1.LindenmayerSystemDefinition();
-        this.lindenmayerSystemProcessor = _lindenmayerSystemProcessor;
+        this.lindenmayerSystemRulesProcessor = _lindenmayerSystemRulesProcessor;
         this.lindenmayerSystemValidator = _lindenmayerSystemValidator;
     }
     AppComponent.prototype.addRule = function () {
@@ -33,7 +33,7 @@ var AppComponent = (function () {
     AppComponent.prototype.processDefinition = function () {
         var validationResult = this.lindenmayerSystemValidator.validate(this.lindenmayerSystemDefinition);
         if (validationResult.result === true && this.iterationCount > 0) {
-            this.lindenmayerSystemProcessor.process(this.lindenmayerSystemDefinition, this.iterationCount);
+            this.lindenmayerSystemRulesProcessor.process(this.lindenmayerSystemDefinition, this.iterationCount);
         }
         else {
         }
@@ -46,12 +46,12 @@ var AppComponent = (function () {
             styles: ["\n    "],
             directives: [angular2_1.CORE_DIRECTIVES, angular2_1.FORM_DIRECTIVES]
         }), 
-        __metadata('design:paramtypes', [LindenmayerSystemProcessor_1.LindenmayerSystemProcessor, LindenmayerSystemValidator_1.LindenmayerSystemValidator])
+        __metadata('design:paramtypes', [LindenmayerSystemRulesProcessor_1.LindenmayerSystemRulesProcessor, LindenmayerSystemValidator_1.LindenmayerSystemValidator])
     ], AppComponent);
     return AppComponent;
 })();
 angular2_1.bootstrap(AppComponent, [
-    LindenmayerSystemProcessor_1.LindenmayerSystemProcessor,
+    LindenmayerSystemRulesProcessor_1.LindenmayerSystemRulesProcessor,
     LindenmayerSystemValidator_1.LindenmayerSystemValidator,
     PositionCalculator_1.PositionCalculator,
     LindenmayerSystemResultBoundaryCalculator_1.LindenmayerSystemResultBoundaryCalculator,

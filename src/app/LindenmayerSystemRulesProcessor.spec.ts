@@ -1,11 +1,11 @@
 import {LindenmayerSystemDefinition} from "./LindenmayerSystemDefinition";
-import {LindenmayerSystemProcessor} from "./LindenmayerSystemProcessor";
+import {LindenmayerSystemRulesProcessor} from "./LindenmayerSystemRulesProcessor";
 import {LindenmayerSystemRule} from "./LindenmayerSystemDefinition";
 
-describe('LindenmayerSystemProcessor', () => {
+describe('LindenmayerSystemRulesProcessor', () => {
     describe('process', () => {
         describe('Algae', () => {
-            var processor = new LindenmayerSystemProcessor();
+            var processor = new LindenmayerSystemRulesProcessor();
             var definition = new LindenmayerSystemDefinition();
 
             beforeEach(() => {
@@ -43,7 +43,7 @@ describe('LindenmayerSystemProcessor', () => {
         });
 
         describe('Koch Curve', () => {
-            var processor = new LindenmayerSystemProcessor();
+            var processor = new LindenmayerSystemRulesProcessor();
             var definition = new LindenmayerSystemDefinition();
 
             beforeEach(() => {
@@ -66,7 +66,7 @@ describe('LindenmayerSystemProcessor', () => {
         });
 
         describe('Pythagoras Tree', () => {
-            var processor = new LindenmayerSystemProcessor();
+            var processor = new LindenmayerSystemRulesProcessor();
             var definition = new LindenmayerSystemDefinition();
 
             beforeEach(() => {

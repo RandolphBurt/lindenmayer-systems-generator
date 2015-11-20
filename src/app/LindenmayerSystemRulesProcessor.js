@@ -1,7 +1,7 @@
-var LindenmayerSystemProcessor = (function () {
-    function LindenmayerSystemProcessor() {
+var LindenmayerSystemRulesProcessor = (function () {
+    function LindenmayerSystemRulesProcessor() {
     }
-    LindenmayerSystemProcessor.prototype.processCharacter = function (definition) {
+    LindenmayerSystemRulesProcessor.prototype.processCharacter = function (definition) {
         return function (c) {
             if (definition.constants && definition.constants.indexOf(c) > -1) {
                 return c;
@@ -11,20 +11,20 @@ var LindenmayerSystemProcessor = (function () {
             }
         };
     };
-    LindenmayerSystemProcessor.prototype.processSequence = function (definition, sequence) {
+    LindenmayerSystemRulesProcessor.prototype.processSequence = function (definition, sequence) {
         return sequence
             .split("")
             .map(this.processCharacter(definition))
             .join("");
     };
-    LindenmayerSystemProcessor.prototype.process = function (definition, iterationCount) {
+    LindenmayerSystemRulesProcessor.prototype.process = function (definition, iterationCount) {
         var result = definition.axiom;
         for (var i = 0; i < iterationCount; i++) {
             result = this.processSequence(definition, result);
         }
         return result;
     };
-    return LindenmayerSystemProcessor;
+    return LindenmayerSystemRulesProcessor;
 })();
-exports.LindenmayerSystemProcessor = LindenmayerSystemProcessor;
-//# sourceMappingURL=LindenmayerSystemProcessor.js.map
+exports.LindenmayerSystemRulesProcessor = LindenmayerSystemRulesProcessor;
+//# sourceMappingURL=LindenmayerSystemRulesProcessor.js.map

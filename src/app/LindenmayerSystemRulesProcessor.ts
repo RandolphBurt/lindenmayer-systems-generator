@@ -1,7 +1,7 @@
 import {LindenmayerSystemDefinition} from "./LindenmayerSystemDefinition";
 import {LindenmayerSystemRule} from "./LindenmayerSystemDefinition";
 
-export class LindenmayerSystemProcessor {
+export class LindenmayerSystemRulesProcessor {
 
     private processCharacter(definition:LindenmayerSystemDefinition) {
         return (c:string) => {

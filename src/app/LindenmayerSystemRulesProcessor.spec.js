@@ -1,10 +1,10 @@
 var LindenmayerSystemDefinition_1 = require("./LindenmayerSystemDefinition");
-var LindenmayerSystemProcessor_1 = require("./LindenmayerSystemProcessor");
+var LindenmayerSystemRulesProcessor_1 = require("./LindenmayerSystemRulesProcessor");
 var LindenmayerSystemDefinition_2 = require("./LindenmayerSystemDefinition");
-describe('LindenmayerSystemProcessor', function () {
+describe('LindenmayerSystemRulesProcessor', function () {
     describe('process', function () {
         describe('Algae', function () {
-            var processor = new LindenmayerSystemProcessor_1.LindenmayerSystemProcessor();
+            var processor = new LindenmayerSystemRulesProcessor_1.LindenmayerSystemRulesProcessor();
             var definition = new LindenmayerSystemDefinition_1.LindenmayerSystemDefinition();
             beforeEach(function () {
                 definition.axiom = "A";
@@ -35,7 +35,7 @@ describe('LindenmayerSystemProcessor', function () {
             });
         });
         describe('Koch Curve', function () {
-            var processor = new LindenmayerSystemProcessor_1.LindenmayerSystemProcessor();
+            var processor = new LindenmayerSystemRulesProcessor_1.LindenmayerSystemRulesProcessor();
             var definition = new LindenmayerSystemDefinition_1.LindenmayerSystemDefinition();
             beforeEach(function () {
                 definition.axiom = "F";
@@ -54,7 +54,7 @@ describe('LindenmayerSystemProcessor', function () {
             });
         });
         describe('Pythagoras Tree', function () {
-            var processor = new LindenmayerSystemProcessor_1.LindenmayerSystemProcessor();
+            var processor = new LindenmayerSystemRulesProcessor_1.LindenmayerSystemRulesProcessor();
             var definition = new LindenmayerSystemDefinition_1.LindenmayerSystemDefinition();
             beforeEach(function () {
                 definition.axiom = "0";
@@ -75,4 +75,4 @@ describe('LindenmayerSystemProcessor', function () {
         });
     });
 });
-//# sourceMappingURL=LindenmayerSystemProcessor.spec.js.map
+//# sourceMappingURL=LindenmayerSystemRulesProcessor.spec.js.map
