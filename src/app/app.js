@@ -20,52 +20,21 @@ var LindenmayerSystemResultBoundaryCalculatorFactory_1 = require("./LindenmayerS
 var LindenmayerSystemResultRendererFactory_1 = require("./LindenmayerSystemResultRendererFactory");
 var LindenmayerSystemLibrary_1 = require("./LindenmayerSystemLibrary");
 var LindenmayerSystemDefinition_2 = require("./LindenmayerSystemDefinition");
+var LindenmayerSystemResultParser_1 = require("./LindenmayerSystemResultParser");
 var AppComponent = (function () {
-    function AppComponent(_lindenmayerSystemRulesProcessor, _lindenmayerSystemValidator, _lindenmayerSystemLibrary, _lindenmayerSystemResultBoundaryCalculatorFactory, _lindenmayerSystemResultRendererFactory) {
+    function AppComponent(_lindenmayerSystemRulesProcessor, _lindenmayerSystemValidator, _lindenmayerSystemLibrary, _lindenmayerSystemResultBoundaryCalculatorFactory, _lindenmayerSystemResultRendererFactory, _lindenmayerSystemResultParser) {
         this.showBusy = false;
         this.iterationCount = 3;
         this.lindenmayerSystemRulesProcessor = _lindenmayerSystemRulesProcessor;
         this.lindenmayerSystemValidator = _lindenmayerSystemValidator;
         this.lindenmayerSystemResultBoundaryCalculatorFactory = _lindenmayerSystemResultBoundaryCalculatorFactory;
         this.lindenmayerSystemResultRendererFactory = _lindenmayerSystemResultRendererFactory;
+        this.lindenmayerSystemResultParser = _lindenmayerSystemResultParser;
         this.library = _lindenmayerSystemLibrary.definitions;
         this.lindenmayerSystemDefinition = new LindenmayerSystemDefinition_1.LindenmayerSystemDefinition();
         this.selectedPredefinedDefinition = this.library[0].title;
         this.loadAndRender();
     }
-    AppComponent.prototype.processResult = function (resultProcessor, result) {
-        for (var _i = 0; _i < result.length; _i++) {
-            var char = result[_i];
-            switch (char) {
-                case "0":
-                    resultProcessor.setColour("#663300");
-                    break;
-                case "1":
-                    resultProcessor.setColour("#003300");
-                    break;
-                case "2":
-                    resultProcessor.setColour("#008000");
-                    break;
-                case "A":
-                case "B":
-                case "F":
-                    resultProcessor.moveForward(10);
-                    break;
-                case "+":
-                    resultProcessor.rotate(-this.lindenmayerSystemDefinition.turningAngle);
-                    break;
-                case "-":
-                    resultProcessor.rotate(this.lindenmayerSystemDefinition.turningAngle);
-                    break;
-                case "[":
-                    resultProcessor.savePosition();
-                    break;
-                case "]":
-                    resultProcessor.restorePosition();
-                    break;
-            }
-        }
-    };
     AppComponent.prototype.processDefinition = function () {
         var canvas = document.getElementById('canvas');
         var canvasContext = canvas.getContext('2d');
@@ -79,7 +48,7 @@ var AppComponent = (function () {
             var result = this.lindenmayerSystemRulesProcessor.process(this.lindenmayerSystemDefinition, this.iterationCount);
             // Calculate the space/rectangular-size required to draw the resultant shape
             var lindenmayerSystemResultBoundaryCalculator = this.lindenmayerSystemResultBoundaryCalculatorFactory.Create();
-            this.processResult(lindenmayerSystemResultBoundaryCalculator, result);
+            this.lindenmayerSystemResultParser.parseResult(lindenmayerSystemResultBoundaryCalculator, this.lindenmayerSystemDefinition, result);
             var diffX = lindenmayerSystemResultBoundaryCalculator.maxX - lindenmayerSystemResultBoundaryCalculator.minX;
             var diffY = lindenmayerSystemResultBoundaryCalculator.maxY - lindenmayerSystemResultBoundaryCalculator.minY;
             var scale = Math.min(canvas.width / diffX, canvas.height / diffY);
@@ -90,7 +59,7 @@ var AppComponent = (function () {
             canvasContext.strokeStyle = "#000000";
             // render the results on screen...
             var lindenmayerSystemResultRenderer = this.lindenmayerSystemResultRendererFactory.Create(canvasContext, startX, startY);
-            this.processResult(lindenmayerSystemResultRenderer, result);
+            this.lindenmayerSystemResultParser.parseResult(lindenmayerSystemResultRenderer, this.lindenmayerSystemDefinition, result);
         }
         else {
         }
@@ -132,7 +101,7 @@ var AppComponent = (function () {
             styles: ["\n        .canvas { background-color: grey }\n        .busy {cursor:wait}\n    "],
             directives: [angular2_1.CORE_DIRECTIVES, angular2_1.FORM_DIRECTIVES]
         }), 
-        __metadata('design:paramtypes', [LindenmayerSystemRulesProcessor_1.LindenmayerSystemRulesProcessor, LindenmayerSystemValidator_1.LindenmayerSystemValidator, LindenmayerSystemLibrary_1.LindenmayerSystemLibrary, LindenmayerSystemResultBoundaryCalculatorFactory_1.LindenmayerSystemResultBoundaryCalculatorFactory, LindenmayerSystemResultRendererFactory_1.LindenmayerSystemResultRendererFactory])
+        __metadata('design:paramtypes', [LindenmayerSystemRulesProcessor_1.LindenmayerSystemRulesProcessor, LindenmayerSystemValidator_1.LindenmayerSystemValidator, LindenmayerSystemLibrary_1.LindenmayerSystemLibrary, LindenmayerSystemResultBoundaryCalculatorFactory_1.LindenmayerSystemResultBoundaryCalculatorFactory, LindenmayerSystemResultRendererFactory_1.LindenmayerSystemResultRendererFactory, LindenmayerSystemResultParser_1.LindenmayerSystemResultParser])
     ], AppComponent);
     return AppComponent;
 })();
@@ -144,6 +113,7 @@ angular2_1.bootstrap(AppComponent, [
     LindenmayerSystemResultRendererFactory_1.LindenmayerSystemResultRendererFactory,
     LindenmayerSystemResultBoundaryCalculator_1.LindenmayerSystemResultBoundaryCalculator,
     LindenmayerSystemResultRenderer_1.LindenmayerSystemResultRenderer,
-    LindenmayerSystemLibrary_1.LindenmayerSystemLibrary
+    LindenmayerSystemLibrary_1.LindenmayerSystemLibrary,
+    LindenmayerSystemResultParser_1.LindenmayerSystemResultParser
 ]);
 //# sourceMappingURL=app.js.map

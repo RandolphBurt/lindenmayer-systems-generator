@@ -12,6 +12,7 @@ import {LindenmayerSystemResultRendererFactory} from "./LindenmayerSystemResultR
 import {LindenmayerSystemLibrary} from "./LindenmayerSystemLibrary";
 import {LindenmayerSystemLibraryDefinition} from "./LindenmayerSystemDefinition";
 import {LindenmayerSystemRule} from "./LindenmayerSystemDefinition";
+import {LindenmayerSystemResultParser} from "./LindenmayerSystemResultParser";
 
 
 @Component({
@@ -28,11 +29,13 @@ class AppComponent {
                 _lindenmayerSystemValidator:LindenmayerSystemValidator,
                 _lindenmayerSystemLibrary:LindenmayerSystemLibrary,
                 _lindenmayerSystemResultBoundaryCalculatorFactory:LindenmayerSystemResultBoundaryCalculatorFactory,
-                _lindenmayerSystemResultRendererFactory:LindenmayerSystemResultRendererFactory) {
+                _lindenmayerSystemResultRendererFactory:LindenmayerSystemResultRendererFactory,
+                _lindenmayerSystemResultParser:LindenmayerSystemResultParser) {
         this.lindenmayerSystemRulesProcessor = _lindenmayerSystemRulesProcessor;
         this.lindenmayerSystemValidator = _lindenmayerSystemValidator;
         this.lindenmayerSystemResultBoundaryCalculatorFactory = _lindenmayerSystemResultBoundaryCalculatorFactory;
         this.lindenmayerSystemResultRendererFactory = _lindenmayerSystemResultRendererFactory;
+        this.lindenmayerSystemResultParser = _lindenmayerSystemResultParser;
 
         this.library = _lindenmayerSystemLibrary.definitions;
         this.lindenmayerSystemDefinition = new LindenmayerSystemDefinition();
@@ -40,6 +43,7 @@ class AppComponent {
         this.loadAndRender();
     }
 
+    private lindenmayerSystemResultParser:LindenmayerSystemResultParser;
     private lindenmayerSystemRulesProcessor:LindenmayerSystemRulesProcessor;
     private lindenmayerSystemValidator:LindenmayerSystemValidator;
     private lindenmayerSystemResultBoundaryCalculatorFactory:LindenmayerSystemResultBoundaryCalculatorFactory;
@@ -49,39 +53,6 @@ class AppComponent {
     private iterationCount:number = 3;
     private library:LindenmayerSystemLibraryDefinition[];
     private selectedPredefinedDefinition:string;
-
-    private processResult(resultProcessor:ILindenmayerSystemResultProcessor, result:string): void {
-        for (var char of result) {
-            switch (char) {
-                case "0": // brown
-                    resultProcessor.setColour("#663300");
-                    break;
-                case "1": // dark green
-                    resultProcessor.setColour("#003300");
-                    break;
-                case "2": // light green
-                    resultProcessor.setColour("#008000");
-                    break;
-                case "A":
-                case "B":
-                case "F":
-                    resultProcessor.moveForward(10);
-                    break;
-                case "+":
-                    resultProcessor.rotate(-this.lindenmayerSystemDefinition.turningAngle);
-                    break;
-                case "-":
-                    resultProcessor.rotate(this.lindenmayerSystemDefinition.turningAngle);
-                    break;
-                case "[":
-                    resultProcessor.savePosition();
-                    break;
-                case "]":
-                    resultProcessor.restorePosition();
-                    break;
-            }
-        }
-    }
 
     private processDefinition(): void {
         var canvas = <HTMLCanvasElement> document.getElementById('canvas');
@@ -98,7 +69,7 @@ class AppComponent {
 
             // Calculate the space/rectangular-size required to draw the resultant shape
             var lindenmayerSystemResultBoundaryCalculator = this.lindenmayerSystemResultBoundaryCalculatorFactory.Create();
-            this.processResult(lindenmayerSystemResultBoundaryCalculator, result);
+            this.lindenmayerSystemResultParser.parseResult(lindenmayerSystemResultBoundaryCalculator, this.lindenmayerSystemDefinition, result);
 
             var diffX = lindenmayerSystemResultBoundaryCalculator.maxX - lindenmayerSystemResultBoundaryCalculator.minX;
             var diffY = lindenmayerSystemResultBoundaryCalculator.maxY - lindenmayerSystemResultBoundaryCalculator.minY;
@@ -113,7 +84,7 @@ class AppComponent {
 
             // render the results on screen...
             var lindenmayerSystemResultRenderer = this.lindenmayerSystemResultRendererFactory.Create(canvasContext, startX, startY);
-            this.processResult(lindenmayerSystemResultRenderer, result);
+            this.lindenmayerSystemResultParser.parseResult(lindenmayerSystemResultRenderer, this.lindenmayerSystemDefinition, result);
         } else {
             // TODO: show errors etc
         }
@@ -160,5 +131,6 @@ bootstrap(AppComponent, [
     LindenmayerSystemResultRendererFactory,
     LindenmayerSystemResultBoundaryCalculator,
     LindenmayerSystemResultRenderer,
-    LindenmayerSystemLibrary
+    LindenmayerSystemLibrary,
+    LindenmayerSystemResultParser
 ]);
