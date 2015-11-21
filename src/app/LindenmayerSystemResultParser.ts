@@ -17,7 +17,7 @@ export class LindenmayerSystemResultParser {
                 case "A":
                 case "B":
                 case "F":
-                    resultProcessor.moveForward(10);
+                    resultProcessor.moveForward(6);
                     break;
                 case "+":
                     resultProcessor.rotate(-1 * lindenmayerSystemDefinition.turningAngle);
