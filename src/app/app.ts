@@ -17,36 +17,39 @@ import {LindenmayerSystemRule} from "./LindenmayerSystemDefinition";
 @Component({
     selector: 'my-app',
     template: `
-        <div>
-            <select [(ng-model)]="selectedPredefinedDefinition" (ng-model-change)="loadAndRender()">
-                <option *ng-for="#definition of library">{{definition.title}}</option>
-             </select>
-        </div>
-        <div><label>Axiom:</label><input [(ng-model)]="lindenmayerSystemDefinition.axiom"></div>
-        <div><label>Constants:</label><input [(ng-model)]="lindenmayerSystemDefinition.constants"></div>
-        <div><label>Turning Angle:</label><input type="number" [(ng-model)]="lindenmayerSystemDefinition.turningAngle"></div>
-        <div *ng-for="#rule of lindenmayerSystemDefinition.rules; #i = index">
-            <label>Rule {{i + 1}}:</label><input [(ng-model)]="rule.input">
-            <span>=&gt;</span>
-            <input [(ng-model)]="rule.output">
-            <input type="button" value="X" (click)="deleteRule(i)">
-        </div>
-        <div>
-            <input type="button" value="Add Rule" (click)="addRule()">
-        </div>
-        <div>
-            <label>Initial direction (Angle):</label><input type="number" [(ng-model)]="lindenmayerSystemDefinition.startDirection">
-        </div>
-        <div>
-            <label>Iteration Count:</label><input type="number" [(ng-model)]="iterationCount">
-            <input type="button" value="Draw" (click)="processDefinition()">
-        </div>
-        <div>
-            <canvas id="canvas" class="canvas" width="1000" height="800"></canvas>
+        <div [ng-class]="{busy: showBusy, default: !showBusy}">
+            <div>
+                <select [(ng-model)]="selectedPredefinedDefinition" (ng-model-change)="loadAndRender()">
+                    <option *ng-for="#definition of library">{{definition.title}}</option>
+                 </select>
+            </div>
+            <div><label>Axiom:</label><input [(ng-model)]="lindenmayerSystemDefinition.axiom"></div>
+            <div><label>Constants:</label><input [(ng-model)]="lindenmayerSystemDefinition.constants"></div>
+            <div><label>Turning Angle:</label><input type="number" [(ng-model)]="lindenmayerSystemDefinition.turningAngle"></div>
+            <div *ng-for="#rule of lindenmayerSystemDefinition.rules; #i = index">
+                <label>Rule {{i + 1}}:</label><input [(ng-model)]="rule.input">
+                <span>=&gt;</span>
+                <input [(ng-model)]="rule.output">
+                <input type="button" value="X" (click)="deleteRule(i)">
+            </div>
+            <div>
+                <input type="button" value="Add Rule" (click)="addRule()">
+            </div>
+            <div>
+                <label>Initial direction (Angle):</label><input type="number" [(ng-model)]="lindenmayerSystemDefinition.startDirection">
+            </div>
+            <div>
+                <label>Iteration Count:</label><input type="number" [(ng-model)]="iterationCount">
+                <input type="button" value="Draw" (click)="queueProcessDefinition()">
+            </div>
+            <div>
+                <canvas id="canvas" class="canvas" width="1000" height="800"></canvas>
+            </div>
         </div>
     `,
     styles: [`
         .canvas { background-color: grey }
+        .busy {cursor:wait}
     `],
     directives: [CORE_DIRECTIVES, FORM_DIRECTIVES]
 })
@@ -72,7 +75,7 @@ class AppComponent {
     private lindenmayerSystemResultBoundaryCalculatorFactory:LindenmayerSystemResultBoundaryCalculatorFactory;
     private lindenmayerSystemResultRendererFactory:LindenmayerSystemResultRendererFactory;
     private lindenmayerSystemDefinition:LindenmayerSystemDefinition;
-
+    private showBusy:boolean = false;
     private iterationCount:number = 3;
     private library:LindenmayerSystemLibraryDefinition[];
     private selectedPredefinedDefinition:string;
@@ -110,34 +113,7 @@ class AppComponent {
         }
     }
 
-    addRule(): void {
-        this.lindenmayerSystemDefinition.addRule();
-    };
-
-    deleteRule(index: number): void {
-        this.lindenmayerSystemDefinition.deleteRule(index);
-    };
-
-    loadAndRender():void {
-        this.loadFromLibrary();
-        this.processDefinition();
-    };
-
-    loadFromLibrary():void {
-        var chosenDefinition = this.library.filter((x) => x.title === this.selectedPredefinedDefinition)[0];
-
-        this.lindenmayerSystemDefinition.axiom = chosenDefinition.axiom;
-        this.lindenmayerSystemDefinition.constants = chosenDefinition.constants;
-        this.lindenmayerSystemDefinition.startDirection = chosenDefinition.startDirection;
-        this.lindenmayerSystemDefinition.turningAngle = chosenDefinition.turningAngle;
-        this.iterationCount = chosenDefinition.suggestedIterationCount;
-
-        if (chosenDefinition.rules) {
-            this.lindenmayerSystemDefinition.rules = chosenDefinition.rules.map((r) => new LindenmayerSystemRule(r.input, r.output));
-        }
-    }
-
-    processDefinition(): void {
+    private processDefinition(): void {
         var canvas = <HTMLCanvasElement> document.getElementById('canvas');
         var canvasContext = canvas.getContext('2d');
         canvasContext.beginPath();
@@ -172,6 +148,42 @@ class AppComponent {
             // TODO: show errors etc
         }
     };
+
+    addRule(): void {
+        this.lindenmayerSystemDefinition.addRule();
+    };
+
+    deleteRule(index: number): void {
+        this.lindenmayerSystemDefinition.deleteRule(index);
+    };
+
+    loadAndRender():void {
+        this.loadFromLibrary();
+        this.queueProcessDefinition();
+    };
+
+    loadFromLibrary():void {
+        var chosenDefinition = this.library.filter((x) => x.title === this.selectedPredefinedDefinition)[0];
+
+        this.lindenmayerSystemDefinition.axiom = chosenDefinition.axiom;
+        this.lindenmayerSystemDefinition.constants = chosenDefinition.constants;
+        this.lindenmayerSystemDefinition.startDirection = chosenDefinition.startDirection;
+        this.lindenmayerSystemDefinition.turningAngle = chosenDefinition.turningAngle;
+        this.iterationCount = chosenDefinition.suggestedIterationCount;
+
+        if (chosenDefinition.rules) {
+            this.lindenmayerSystemDefinition.rules = chosenDefinition.rules.map((r) => new LindenmayerSystemRule(r.input, r.output));
+        }
+    }
+
+    queueProcessDefinition(): void {
+        this.showBusy = true;
+
+        setTimeout(() => {
+            this.processDefinition();
+            this.showBusy = false;
+        }, 100);
+    }
 }
 
 bootstrap(AppComponent, [
