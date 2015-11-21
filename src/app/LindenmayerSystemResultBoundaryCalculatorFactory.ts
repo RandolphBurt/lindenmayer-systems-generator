@@ -11,10 +11,7 @@ export class LindenmayerSystemResultBoundaryCalculatorFactory {
 
     private positionCalculator:PositionCalculator;
 
-    Create(facing:number):LindenmayerSystemResultBoundaryCalculator {
-        var position = new PositionData();
-        position.facing = facing;
-
-        return new LindenmayerSystemResultBoundaryCalculator(this.positionCalculator, position);
+    Create():LindenmayerSystemResultBoundaryCalculator {
+        return new LindenmayerSystemResultBoundaryCalculator(this.positionCalculator);
     }
 }

@@ -16,14 +16,14 @@ var core_1 = require('angular2/core');
 var PositionCalculator_1 = require("./PositionCalculator");
 var PositionData_1 = require("./PositionData");
 var LindenmayerSystemResultBoundaryCalculator = (function () {
-    function LindenmayerSystemResultBoundaryCalculator(_positionCalculator, _position) {
+    function LindenmayerSystemResultBoundaryCalculator(_positionCalculator) {
+        this.position = new PositionData_1.PositionData();
         this.positionStack = [];
         this.minX = 0;
         this.maxX = 0;
         this.minY = 0;
         this.maxY = 0;
         this.positionCalculator = _positionCalculator;
-        this.position = _position;
     }
     LindenmayerSystemResultBoundaryCalculator.prototype.setColour = function (colour) { };
     LindenmayerSystemResultBoundaryCalculator.prototype.savePosition = function () {
@@ -53,7 +53,7 @@ var LindenmayerSystemResultBoundaryCalculator = (function () {
     };
     LindenmayerSystemResultBoundaryCalculator = __decorate([
         __param(0, core_1.Inject(PositionCalculator_1.PositionCalculator)), 
-        __metadata('design:paramtypes', [PositionCalculator_1.PositionCalculator, PositionData_1.PositionData])
+        __metadata('design:paramtypes', [PositionCalculator_1.PositionCalculator])
     ], LindenmayerSystemResultBoundaryCalculator);
     return LindenmayerSystemResultBoundaryCalculator;
 })();

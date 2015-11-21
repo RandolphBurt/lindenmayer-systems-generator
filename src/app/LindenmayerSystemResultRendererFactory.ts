@@ -11,12 +11,11 @@ export class LindenmayerSystemResultRendererFactory {
 
     private positionCalculator:PositionCalculator;
 
-    Create(canvasContext:any, x:number, y:number, facing:number):LindenmayerSystemResultRenderer {
+    Create(canvasContext:any, x:number, y:number):LindenmayerSystemResultRenderer {
 
         var position = new PositionData();
         position.x = x;
         position.y = y;
-        position.facing = facing;
         canvasContext.moveTo(x, y);
 
         return new LindenmayerSystemResultRenderer(this.positionCalculator, canvasContext, position);

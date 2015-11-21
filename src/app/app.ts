@@ -36,9 +36,6 @@ import {LindenmayerSystemRule} from "./LindenmayerSystemDefinition";
                 <input type="button" value="Add Rule" (click)="addRule()">
             </div>
             <div>
-                <label>Initial direction (Angle):</label><input type="number" [(ng-model)]="lindenmayerSystemDefinition.startDirection">
-            </div>
-            <div>
                 <label>Iteration Count:</label><input type="number" [(ng-model)]="iterationCount">
                 <input type="button" value="Draw" (click)="queueProcessDefinition()">
             </div>
@@ -127,7 +124,7 @@ class AppComponent {
             var result = this.lindenmayerSystemRulesProcessor.process(this.lindenmayerSystemDefinition, this.iterationCount);
 
             // Calculate the space/rectangular-size required to draw the resultant shape
-            var lindenmayerSystemResultBoundaryCalculator = this.lindenmayerSystemResultBoundaryCalculatorFactory.Create(this.lindenmayerSystemDefinition.startDirection);
+            var lindenmayerSystemResultBoundaryCalculator = this.lindenmayerSystemResultBoundaryCalculatorFactory.Create();
             this.processResult(lindenmayerSystemResultBoundaryCalculator, result);
 
             var diffX = lindenmayerSystemResultBoundaryCalculator.maxX - lindenmayerSystemResultBoundaryCalculator.minX;
@@ -142,7 +139,7 @@ class AppComponent {
             canvasContext.strokeStyle  = "#000000";
 
             // render the results on screen...
-            var lindenmayerSystemResultRenderer = this.lindenmayerSystemResultRendererFactory.Create(canvasContext, startX, startY, this.lindenmayerSystemDefinition.startDirection);
+            var lindenmayerSystemResultRenderer = this.lindenmayerSystemResultRendererFactory.Create(canvasContext, startX, startY);
             this.processResult(lindenmayerSystemResultRenderer, result);
         } else {
             // TODO: show errors etc
@@ -158,23 +155,19 @@ class AppComponent {
     };
 
     loadAndRender():void {
-        this.loadFromLibrary();
-        this.queueProcessDefinition();
-    };
-
-    loadFromLibrary():void {
         var chosenDefinition = this.library.filter((x) => x.title === this.selectedPredefinedDefinition)[0];
 
         this.lindenmayerSystemDefinition.axiom = chosenDefinition.axiom;
         this.lindenmayerSystemDefinition.constants = chosenDefinition.constants;
-        this.lindenmayerSystemDefinition.startDirection = chosenDefinition.startDirection;
         this.lindenmayerSystemDefinition.turningAngle = chosenDefinition.turningAngle;
         this.iterationCount = chosenDefinition.suggestedIterationCount;
 
         if (chosenDefinition.rules) {
             this.lindenmayerSystemDefinition.rules = chosenDefinition.rules.map((r) => new LindenmayerSystemRule(r.input, r.output));
         }
-    }
+
+        this.queueProcessDefinition();
+    };
 
     queueProcessDefinition(): void {
         this.showBusy = true;

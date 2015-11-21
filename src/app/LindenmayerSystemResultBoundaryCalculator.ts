@@ -5,13 +5,12 @@ import {PositionCalculator} from "./PositionCalculator";
 import {PositionData} from "./PositionData";
 
 export class LindenmayerSystemResultBoundaryCalculator implements ILindenmayerSystemResultProcessor {
-    constructor(@Inject(PositionCalculator) _positionCalculator:PositionCalculator, _position:PositionData ) {
+    constructor(@Inject(PositionCalculator) _positionCalculator:PositionCalculator) {
         this.positionCalculator = _positionCalculator;
-        this.position = _position;
     }
 
     private positionCalculator:PositionCalculator;
-    private position:PositionData;
+    private position:PositionData = new PositionData();
     private positionStack:PositionData[] = [];
 
     minX:number = 0;

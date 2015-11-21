@@ -1,15 +1,14 @@
 var PositionData = (function () {
     function PositionData(copyPosition) {
-        this.x = 0;
-        this.y = 0;
-        this.facing = 0;
         if (copyPosition) {
             this.x = copyPosition.x;
             this.y = copyPosition.y;
             this.facing = copyPosition.facing;
         }
         else {
-            this.x = this.y = this.facing = 0;
+            // y axis is inverted on Canvas (0, 0) is top left hand corner.  Therefore 180 is facing up.
+            this.facing = 180;
+            this.x = this.y = 0;
         }
     }
     return PositionData;

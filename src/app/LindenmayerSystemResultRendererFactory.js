@@ -20,11 +20,10 @@ var LindenmayerSystemResultRendererFactory = (function () {
     function LindenmayerSystemResultRendererFactory(_positionCalculator) {
         this.positionCalculator = _positionCalculator;
     }
-    LindenmayerSystemResultRendererFactory.prototype.Create = function (canvasContext, x, y, facing) {
+    LindenmayerSystemResultRendererFactory.prototype.Create = function (canvasContext, x, y) {
         var position = new PositionData_1.PositionData();
         position.x = x;
         position.y = y;
-        position.facing = facing;
         canvasContext.moveTo(x, y);
         return new LindenmayerSystemResultRenderer_1.LindenmayerSystemResultRenderer(this.positionCalculator, canvasContext, position);
     };

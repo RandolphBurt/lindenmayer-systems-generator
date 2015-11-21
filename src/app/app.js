@@ -78,7 +78,7 @@ var AppComponent = (function () {
             // Iterate over the axiom and generated results 'iterationCount' times....
             var result = this.lindenmayerSystemRulesProcessor.process(this.lindenmayerSystemDefinition, this.iterationCount);
             // Calculate the space/rectangular-size required to draw the resultant shape
-            var lindenmayerSystemResultBoundaryCalculator = this.lindenmayerSystemResultBoundaryCalculatorFactory.Create(this.lindenmayerSystemDefinition.startDirection);
+            var lindenmayerSystemResultBoundaryCalculator = this.lindenmayerSystemResultBoundaryCalculatorFactory.Create();
             this.processResult(lindenmayerSystemResultBoundaryCalculator, result);
             var diffX = lindenmayerSystemResultBoundaryCalculator.maxX - lindenmayerSystemResultBoundaryCalculator.minX;
             var diffY = lindenmayerSystemResultBoundaryCalculator.maxY - lindenmayerSystemResultBoundaryCalculator.minY;
@@ -89,7 +89,7 @@ var AppComponent = (function () {
             canvasContext.scale(scale, scale);
             canvasContext.strokeStyle = "#000000";
             // render the results on screen...
-            var lindenmayerSystemResultRenderer = this.lindenmayerSystemResultRendererFactory.Create(canvasContext, startX, startY, this.lindenmayerSystemDefinition.startDirection);
+            var lindenmayerSystemResultRenderer = this.lindenmayerSystemResultRendererFactory.Create(canvasContext, startX, startY);
             this.processResult(lindenmayerSystemResultRenderer, result);
         }
         else {
@@ -105,22 +105,18 @@ var AppComponent = (function () {
     };
     ;
     AppComponent.prototype.loadAndRender = function () {
-        this.loadFromLibrary();
-        this.queueProcessDefinition();
-    };
-    ;
-    AppComponent.prototype.loadFromLibrary = function () {
         var _this = this;
         var chosenDefinition = this.library.filter(function (x) { return x.title === _this.selectedPredefinedDefinition; })[0];
         this.lindenmayerSystemDefinition.axiom = chosenDefinition.axiom;
         this.lindenmayerSystemDefinition.constants = chosenDefinition.constants;
-        this.lindenmayerSystemDefinition.startDirection = chosenDefinition.startDirection;
         this.lindenmayerSystemDefinition.turningAngle = chosenDefinition.turningAngle;
         this.iterationCount = chosenDefinition.suggestedIterationCount;
         if (chosenDefinition.rules) {
             this.lindenmayerSystemDefinition.rules = chosenDefinition.rules.map(function (r) { return new LindenmayerSystemDefinition_2.LindenmayerSystemRule(r.input, r.output); });
         }
+        this.queueProcessDefinition();
     };
+    ;
     AppComponent.prototype.queueProcessDefinition = function () {
         var _this = this;
         this.showBusy = true;
@@ -132,7 +128,7 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         angular2_1.Component({
             selector: 'my-app',
-            template: "\n        <div [ng-class]=\"{busy: showBusy, default: !showBusy}\">\n            <div>\n                <select [(ng-model)]=\"selectedPredefinedDefinition\" (ng-model-change)=\"loadAndRender()\">\n                    <option *ng-for=\"#definition of library\">{{definition.title}}</option>\n                 </select>\n            </div>\n            <div><label>Axiom:</label><input [(ng-model)]=\"lindenmayerSystemDefinition.axiom\"></div>\n            <div><label>Constants:</label><input [(ng-model)]=\"lindenmayerSystemDefinition.constants\"></div>\n            <div><label>Turning Angle:</label><input type=\"number\" [(ng-model)]=\"lindenmayerSystemDefinition.turningAngle\"></div>\n            <div *ng-for=\"#rule of lindenmayerSystemDefinition.rules; #i = index\">\n                <label>Rule {{i + 1}}:</label><input [(ng-model)]=\"rule.input\">\n                <span>=&gt;</span>\n                <input [(ng-model)]=\"rule.output\">\n                <input type=\"button\" value=\"X\" (click)=\"deleteRule(i)\">\n            </div>\n            <div>\n                <input type=\"button\" value=\"Add Rule\" (click)=\"addRule()\">\n            </div>\n            <div>\n                <label>Initial direction (Angle):</label><input type=\"number\" [(ng-model)]=\"lindenmayerSystemDefinition.startDirection\">\n            </div>\n            <div>\n                <label>Iteration Count:</label><input type=\"number\" [(ng-model)]=\"iterationCount\">\n                <input type=\"button\" value=\"Draw\" (click)=\"queueProcessDefinition()\">\n            </div>\n            <div>\n                <canvas id=\"canvas\" class=\"canvas\" width=\"1000\" height=\"750\"></canvas>\n            </div>\n        </div>\n    ",
+            template: "\n        <div [ng-class]=\"{busy: showBusy, default: !showBusy}\">\n            <div>\n                <select [(ng-model)]=\"selectedPredefinedDefinition\" (ng-model-change)=\"loadAndRender()\">\n                    <option *ng-for=\"#definition of library\">{{definition.title}}</option>\n                 </select>\n            </div>\n            <div><label>Axiom:</label><input [(ng-model)]=\"lindenmayerSystemDefinition.axiom\"></div>\n            <div><label>Constants:</label><input [(ng-model)]=\"lindenmayerSystemDefinition.constants\"></div>\n            <div><label>Turning Angle:</label><input type=\"number\" [(ng-model)]=\"lindenmayerSystemDefinition.turningAngle\"></div>\n            <div *ng-for=\"#rule of lindenmayerSystemDefinition.rules; #i = index\">\n                <label>Rule {{i + 1}}:</label><input [(ng-model)]=\"rule.input\">\n                <span>=&gt;</span>\n                <input [(ng-model)]=\"rule.output\">\n                <input type=\"button\" value=\"X\" (click)=\"deleteRule(i)\">\n            </div>\n            <div>\n                <input type=\"button\" value=\"Add Rule\" (click)=\"addRule()\">\n            </div>\n            <div>\n                <label>Iteration Count:</label><input type=\"number\" [(ng-model)]=\"iterationCount\">\n                <input type=\"button\" value=\"Draw\" (click)=\"queueProcessDefinition()\">\n            </div>\n            <div>\n                <canvas id=\"canvas\" class=\"canvas\" width=\"1000\" height=\"750\"></canvas>\n            </div>\n        </div>\n    ",
             styles: ["\n        .canvas { background-color: grey }\n        .busy {cursor:wait}\n    "],
             directives: [angular2_1.CORE_DIRECTIVES, angular2_1.FORM_DIRECTIVES]
         }), 

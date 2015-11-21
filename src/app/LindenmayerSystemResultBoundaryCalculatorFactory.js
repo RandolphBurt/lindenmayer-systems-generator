@@ -15,15 +15,12 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 var core_1 = require('angular2/core');
 var LindenmayerSystemResultBoundaryCalculator_1 = require("./LindenmayerSystemResultBoundaryCalculator");
 var PositionCalculator_1 = require("./PositionCalculator");
-var PositionData_1 = require("./PositionData");
 var LindenmayerSystemResultBoundaryCalculatorFactory = (function () {
     function LindenmayerSystemResultBoundaryCalculatorFactory(_positionCalculator) {
         this.positionCalculator = _positionCalculator;
     }
-    LindenmayerSystemResultBoundaryCalculatorFactory.prototype.Create = function (facing) {
-        var position = new PositionData_1.PositionData();
-        position.facing = facing;
-        return new LindenmayerSystemResultBoundaryCalculator_1.LindenmayerSystemResultBoundaryCalculator(this.positionCalculator, position);
+    LindenmayerSystemResultBoundaryCalculatorFactory.prototype.Create = function () {
+        return new LindenmayerSystemResultBoundaryCalculator_1.LindenmayerSystemResultBoundaryCalculator(this.positionCalculator);
     };
     LindenmayerSystemResultBoundaryCalculatorFactory = __decorate([
         __param(0, core_1.Inject(PositionCalculator_1.PositionCalculator)), 

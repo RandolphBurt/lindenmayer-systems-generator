@@ -5,12 +5,13 @@ export class PositionData {
             this.y = copyPosition.y;
             this.facing = copyPosition.facing;
         } else {
-            this.x = this.y = this.facing = 0;
+            // y axis is inverted on Canvas (0, 0) is top left hand corner.  Therefore 180 is facing up.
+            this.facing = 180;
+            this.x = this.y = 0;
         }
     }
 
-    x: number = 0;
-    y: number = 0;
-
-    facing: number = 0;
+    x: number;
+    y: number;
+    facing: number;
 }
