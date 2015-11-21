@@ -89,7 +89,7 @@ class AppComponent {
     };
 
     processDefinition() {
-        var canvas = document.getElementById('canvas');
+        var canvas = <HTMLCanvasElement> document.getElementById('canvas');
         var canvasContext = canvas.getContext('2d');
         canvasContext.beginPath();
         canvasContext.setTransform(1, 0, 0, 1, 0, 0);
@@ -100,9 +100,8 @@ class AppComponent {
         if (validationResult.result === true && this.iterationCount > 0) {
             var result = this.lindenmayerSystemRulesProcessor.process(this.lindenmayerSystemDefinition, this.iterationCount);
 
-            var resultProcessor:ILindenmayerSystemResultProcessor = this.lindenmayerSystemResultBoundaryCalculator;
             this.lindenmayerSystemResultBoundaryCalculator.initialise();
-            this.processResult(resultProcessor, result);
+            this.processResult(this.lindenmayerSystemResultBoundaryCalculator, result);
 
             var diffX = this.lindenmayerSystemResultBoundaryCalculator.maxX - this.lindenmayerSystemResultBoundaryCalculator.minX;
             var diffY = this.lindenmayerSystemResultBoundaryCalculator.maxY - this.lindenmayerSystemResultBoundaryCalculator.minY;
@@ -114,8 +113,7 @@ class AppComponent {
             canvasContext.scale(scale, scale);
 
             this.lindenmayerSystemResultRenderer.initialise(canvasContext, startX, startY);
-            resultProcessor = this.lindenmayerSystemResultRenderer;
-            this.processResult(resultProcessor, result);
+            this.processResult(this.lindenmayerSystemResultRenderer, result);
         } else {
             // TODO: show errors etc
         }

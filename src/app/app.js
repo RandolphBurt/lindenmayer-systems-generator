@@ -65,9 +65,8 @@ var AppComponent = (function () {
         var validationResult = this.lindenmayerSystemValidator.validate(this.lindenmayerSystemDefinition);
         if (validationResult.result === true && this.iterationCount > 0) {
             var result = this.lindenmayerSystemRulesProcessor.process(this.lindenmayerSystemDefinition, this.iterationCount);
-            var resultProcessor = this.lindenmayerSystemResultBoundaryCalculator;
             this.lindenmayerSystemResultBoundaryCalculator.initialise();
-            this.processResult(resultProcessor, result);
+            this.processResult(this.lindenmayerSystemResultBoundaryCalculator, result);
             var diffX = this.lindenmayerSystemResultBoundaryCalculator.maxX - this.lindenmayerSystemResultBoundaryCalculator.minX;
             var diffY = this.lindenmayerSystemResultBoundaryCalculator.maxY - this.lindenmayerSystemResultBoundaryCalculator.minY;
             var scale = Math.min(canvas.width / diffX, canvas.height / diffY);
@@ -75,8 +74,7 @@ var AppComponent = (function () {
             var startY = -1 * this.lindenmayerSystemResultBoundaryCalculator.minY;
             canvasContext.scale(scale, scale);
             this.lindenmayerSystemResultRenderer.initialise(canvasContext, startX, startY);
-            resultProcessor = this.lindenmayerSystemResultRenderer;
-            this.processResult(resultProcessor, result);
+            this.processResult(this.lindenmayerSystemResultRenderer, result);
         }
         else {
         }
