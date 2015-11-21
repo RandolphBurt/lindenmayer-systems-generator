@@ -15,6 +15,16 @@ export class LindenmayerSystemResultRenderer implements ILindenmayerSystemResult
 
     private canvasContext:any;
 
+    // TODO: type of canvasContext
+    initialise(canvasContext:any, x:number, y:number):void {
+        this.canvasContext = canvasContext;
+        this.position = new PositionData();
+        this.position.x = x;
+        this.position.y = y;
+        this.position.facing = 0;
+        this.canvasContext.moveTo(x, y);
+    }
+
     savePosition():void {
         this.positionStack.push(this.position);
         this.position = new PositionData(this.position);
@@ -28,6 +38,7 @@ export class LindenmayerSystemResultRenderer implements ILindenmayerSystemResult
     moveForward(distance:number):void {
         this.positionCalculator.move(this.position, distance);
         this.canvasContext.lineTo(this.position.x, this.position.y);
+        this.canvasContext.stroke();
     }
 
     rotate(angle:number):void {

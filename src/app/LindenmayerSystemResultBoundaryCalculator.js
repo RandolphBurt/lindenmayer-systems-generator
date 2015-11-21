@@ -17,14 +17,17 @@ var PositionCalculator_1 = require("./PositionCalculator");
 var PositionData_1 = require("./PositionData");
 var LindenmayerSystemResultBoundaryCalculator = (function () {
     function LindenmayerSystemResultBoundaryCalculator(_positionCalculator) {
-        this.position = new PositionData_1.PositionData();
         this.positionStack = [];
+        this.positionCalculator = _positionCalculator;
+        this.initialise();
+    }
+    LindenmayerSystemResultBoundaryCalculator.prototype.initialise = function () {
         this.minX = 0;
         this.maxX = 0;
         this.minY = 0;
         this.maxY = 0;
-        this.positionCalculator = _positionCalculator;
-    }
+        this.position = new PositionData_1.PositionData();
+    };
     LindenmayerSystemResultBoundaryCalculator.prototype.savePosition = function () {
         this.positionStack.push(this.position);
         this.position = new PositionData_1.PositionData(this.position);

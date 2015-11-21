@@ -21,6 +21,15 @@ var LindenmayerSystemResultRenderer = (function () {
         this.positionStack = [];
         this.positionCalculator = _positionCalculator;
     }
+    // TODO: type of canvasContext
+    LindenmayerSystemResultRenderer.prototype.initialise = function (canvasContext, x, y) {
+        this.canvasContext = canvasContext;
+        this.position = new PositionData_1.PositionData();
+        this.position.x = x;
+        this.position.y = y;
+        this.position.facing = 0;
+        this.canvasContext.moveTo(x, y);
+    };
     LindenmayerSystemResultRenderer.prototype.savePosition = function () {
         this.positionStack.push(this.position);
         this.position = new PositionData_1.PositionData(this.position);
@@ -32,6 +41,7 @@ var LindenmayerSystemResultRenderer = (function () {
     LindenmayerSystemResultRenderer.prototype.moveForward = function (distance) {
         this.positionCalculator.move(this.position, distance);
         this.canvasContext.lineTo(this.position.x, this.position.y);
+        this.canvasContext.stroke();
     };
     LindenmayerSystemResultRenderer.prototype.rotate = function (angle) {
         this.positionCalculator.rotate(this.position, angle);

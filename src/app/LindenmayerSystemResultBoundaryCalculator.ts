@@ -7,16 +7,25 @@ import {PositionData} from "./PositionData";
 export class LindenmayerSystemResultBoundaryCalculator implements ILindenmayerSystemResultProcessor {
     constructor(@Inject(PositionCalculator) _positionCalculator:PositionCalculator) {
         this.positionCalculator = _positionCalculator;
+        this.initialise();
     }
 
     private positionCalculator:PositionCalculator;
-    private position:PositionData = new PositionData();
+    private position:PositionData;
     private positionStack:PositionData[] = [];
 
-    minX:number = 0;
-    maxX:number = 0;
-    minY:number = 0;
-    maxY:number = 0;
+    minX:number;
+    maxX:number;
+    minY:number;
+    maxY:number;
+
+    initialise():void {
+        this.minX = 0;
+        this.maxX = 0;
+        this.minY = 0;
+        this.maxY = 0;
+        this.position = new PositionData();
+    }
 
     savePosition():void {
         this.positionStack.push(this.position);
