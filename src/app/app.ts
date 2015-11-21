@@ -26,7 +26,10 @@ import {LindenmayerSystemResultRendererFactory} from "./LindenmayerSystemResultR
             <input type="button" value="Add Rule" (click)="addRule()">
         </div>
         <div>
-            <input [(ng-model)]="iterationCount">
+            <label>Initial direction (Angle):</label><input type="number" [(ng-model)]="lindenmayerSystemDefinition.startDirection">
+        </div>
+        <div>
+            <label>Iteration Count:</label><input type="number" [(ng-model)]="iterationCount">
             <input type="button" value="Draw" (click)="processDefinition()">
         </div>
         <div>
@@ -54,7 +57,8 @@ class AppComponent {
         // TODO: TEMP
         this.lindenmayerSystemDefinition.axiom = "F";
         this.lindenmayerSystemDefinition.constants = "+-";
-        this.lindenmayerSystemDefinition.addRule()
+        this.lindenmayerSystemDefinition.startDirection = 30;
+        this.lindenmayerSystemDefinition.addRule();
         this.lindenmayerSystemDefinition.rules[0].input = "F";
         this.lindenmayerSystemDefinition.rules[0].output = "F+F-F-F+F";
     }
@@ -105,7 +109,7 @@ class AppComponent {
             var result = this.lindenmayerSystemRulesProcessor.process(this.lindenmayerSystemDefinition, this.iterationCount);
 
             // Calculate the space/rectangular-size required to draw the resultant shape
-            var lindenmayerSystemResultBoundaryCalculator = this.lindenmayerSystemResultBoundaryCalculatorFactory.Create(45);
+            var lindenmayerSystemResultBoundaryCalculator = this.lindenmayerSystemResultBoundaryCalculatorFactory.Create(this.lindenmayerSystemDefinition.startDirection);
             this.processResult(lindenmayerSystemResultBoundaryCalculator, result);
 
             var diffX = lindenmayerSystemResultBoundaryCalculator.maxX - lindenmayerSystemResultBoundaryCalculator.minX;
@@ -119,7 +123,7 @@ class AppComponent {
             canvasContext.scale(scale, scale);
 
             // render the results on screen...
-            var lindenmayerSystemResultRenderer = this.lindenmayerSystemResultRendererFactory.Create(canvasContext, startX, startY, 45);
+            var lindenmayerSystemResultRenderer = this.lindenmayerSystemResultRendererFactory.Create(canvasContext, startX, startY, this.lindenmayerSystemDefinition.startDirection);
             this.processResult(lindenmayerSystemResultRenderer, result);
         } else {
             // TODO: show errors etc

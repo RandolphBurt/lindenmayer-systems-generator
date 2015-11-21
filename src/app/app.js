@@ -29,6 +29,7 @@ var AppComponent = (function () {
         // TODO: TEMP
         this.lindenmayerSystemDefinition.axiom = "F";
         this.lindenmayerSystemDefinition.constants = "+-";
+        this.lindenmayerSystemDefinition.startDirection = 30;
         this.lindenmayerSystemDefinition.addRule();
         this.lindenmayerSystemDefinition.rules[0].input = "F";
         this.lindenmayerSystemDefinition.rules[0].output = "F+F-F-F+F";
@@ -69,7 +70,7 @@ var AppComponent = (function () {
             // Iterate over the axiom and generated results 'iterationCount' times....
             var result = this.lindenmayerSystemRulesProcessor.process(this.lindenmayerSystemDefinition, this.iterationCount);
             // Calculate the space/rectangular-size required to draw the resultant shape
-            var lindenmayerSystemResultBoundaryCalculator = this.lindenmayerSystemResultBoundaryCalculatorFactory.Create(45);
+            var lindenmayerSystemResultBoundaryCalculator = this.lindenmayerSystemResultBoundaryCalculatorFactory.Create(this.lindenmayerSystemDefinition.startDirection);
             this.processResult(lindenmayerSystemResultBoundaryCalculator, result);
             var diffX = lindenmayerSystemResultBoundaryCalculator.maxX - lindenmayerSystemResultBoundaryCalculator.minX;
             var diffY = lindenmayerSystemResultBoundaryCalculator.maxY - lindenmayerSystemResultBoundaryCalculator.minY;
@@ -79,7 +80,7 @@ var AppComponent = (function () {
             // scale the canvas to fit the size required
             canvasContext.scale(scale, scale);
             // render the results on screen...
-            var lindenmayerSystemResultRenderer = this.lindenmayerSystemResultRendererFactory.Create(canvasContext, startX, startY, 45);
+            var lindenmayerSystemResultRenderer = this.lindenmayerSystemResultRendererFactory.Create(canvasContext, startX, startY, this.lindenmayerSystemDefinition.startDirection);
             this.processResult(lindenmayerSystemResultRenderer, result);
         }
         else {
@@ -89,7 +90,7 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         angular2_1.Component({
             selector: 'my-app',
-            template: "\n        <div><label>Axiom:</label><input [(ng-model)]=\"lindenmayerSystemDefinition.axiom\"></div>\n        <div><label>Constants:</label><input [(ng-model)]=\"lindenmayerSystemDefinition.constants\"></div>\n            <div *ng-for=\"#rule of lindenmayerSystemDefinition.rules; #i = index\">\n                <label>Rule {{i + 1}}:</label><input [(ng-model)]=\"rule.input\">\n                <span>=&gt;</span>\n                <input [(ng-model)]=\"rule.output\">\n                <input type=\"button\" value=\"X\" (click)=\"deleteRule(i)\">\n            </div>\n        <div>\n            <input type=\"button\" value=\"Add Rule\" (click)=\"addRule()\">\n        </div>\n        <div>\n            <input [(ng-model)]=\"iterationCount\">\n            <input type=\"button\" value=\"Draw\" (click)=\"processDefinition()\">\n        </div>\n        <div>\n            <canvas id=\"canvas\" class=\"canvas\" width=\"500\" height=\"500\"></canvas>\n        </div>\n    ",
+            template: "\n        <div><label>Axiom:</label><input [(ng-model)]=\"lindenmayerSystemDefinition.axiom\"></div>\n        <div><label>Constants:</label><input [(ng-model)]=\"lindenmayerSystemDefinition.constants\"></div>\n            <div *ng-for=\"#rule of lindenmayerSystemDefinition.rules; #i = index\">\n                <label>Rule {{i + 1}}:</label><input [(ng-model)]=\"rule.input\">\n                <span>=&gt;</span>\n                <input [(ng-model)]=\"rule.output\">\n                <input type=\"button\" value=\"X\" (click)=\"deleteRule(i)\">\n            </div>\n        <div>\n            <input type=\"button\" value=\"Add Rule\" (click)=\"addRule()\">\n        </div>\n        <div>\n            <label>Initial direction (Angle):</label><input type=\"number\" [(ng-model)]=\"lindenmayerSystemDefinition.startDirection\">\n        </div>\n        <div>\n            <label>Iteration Count:</label><input type=\"number\" [(ng-model)]=\"iterationCount\">\n            <input type=\"button\" value=\"Draw\" (click)=\"processDefinition()\">\n        </div>\n        <div>\n            <canvas id=\"canvas\" class=\"canvas\" width=\"500\" height=\"500\"></canvas>\n        </div>\n    ",
             styles: ["\n        .canvas { background-color: grey }\n    "],
             directives: [angular2_1.CORE_DIRECTIVES, angular2_1.FORM_DIRECTIVES]
         }), 

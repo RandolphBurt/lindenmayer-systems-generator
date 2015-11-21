@@ -1,5 +1,6 @@
 export class LindenmayerSystemDefinition {
     axiom: string;
+    startDirection: number;
     constants: string;
     rules: LindenmayerSystemRule[];
 
