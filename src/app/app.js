@@ -50,6 +50,12 @@ var AppComponent = (function () {
                 case "-":
                     resultProcessor.rotate(this.lindenmayerSystemDefinition.turningAngle);
                     break;
+                case "[":
+                    resultProcessor.savePosition();
+                    break;
+                case "]":
+                    resultProcessor.restorePosition();
+                    break;
             }
         }
     };
