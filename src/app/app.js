@@ -83,8 +83,8 @@ var AppComponent = (function () {
             var diffX = lindenmayerSystemResultBoundaryCalculator.maxX - lindenmayerSystemResultBoundaryCalculator.minX;
             var diffY = lindenmayerSystemResultBoundaryCalculator.maxY - lindenmayerSystemResultBoundaryCalculator.minY;
             var scale = Math.min(canvas.width / diffX, canvas.height / diffY);
-            var startX = -1 * lindenmayerSystemResultBoundaryCalculator.minX;
-            var startY = -1 * lindenmayerSystemResultBoundaryCalculator.minY;
+            var startX = (-1 * lindenmayerSystemResultBoundaryCalculator.minX) + (0.5 * ((canvas.width / scale) - diffX));
+            var startY = (-1 * lindenmayerSystemResultBoundaryCalculator.minY) + (0.5 * ((canvas.height / scale) - diffY));
             // scale the canvas to fit the size required
             canvasContext.scale(scale, scale);
             canvasContext.strokeStyle = "#000000";

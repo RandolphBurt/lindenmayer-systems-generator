@@ -104,8 +104,8 @@ class AppComponent {
             var diffY = lindenmayerSystemResultBoundaryCalculator.maxY - lindenmayerSystemResultBoundaryCalculator.minY;
 
             var scale:number = Math.min(canvas.width / diffX, canvas.height / diffY);
-            var startX:number = -1 * lindenmayerSystemResultBoundaryCalculator.minX;
-            var startY:number = -1 * lindenmayerSystemResultBoundaryCalculator.minY;
+            var startX:number = (-1 * lindenmayerSystemResultBoundaryCalculator.minX) + (0.5 * ((canvas.width / scale) - diffX));
+            var startY:number = (-1 * lindenmayerSystemResultBoundaryCalculator.minY) + (0.5 * ((canvas.height / scale) - diffY));
 
             // scale the canvas to fit the size required
             canvasContext.scale(scale, scale);
