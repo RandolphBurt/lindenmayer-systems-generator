@@ -25,3 +25,19 @@ export class LindenmayerSystemRule {
         this.output = _output;
     }
 }
+
+export class LindenmayerSystemLibraryDefinition extends LindenmayerSystemDefinition {
+    title: string;
+    suggestedIterationCount:number;
+
+    constructor(_title:string, _suggestedIterationCount:number, _axiom:string, _constants:string, _turningAngle:number, _startDirection:number, _rules:LindenmayerSystemRule[]) {
+        super();
+        this.title = _title;
+        this.suggestedIterationCount = _suggestedIterationCount;
+        this.axiom = _axiom;
+        this.turningAngle = _turningAngle;
+        this.constants = _constants;
+        this.startDirection = _startDirection;
+        this.rules = _rules;
+    }
+}

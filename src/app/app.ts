@@ -9,11 +9,19 @@ import {LindenmayerSystemResultRenderer} from "./LindenmayerSystemResultRenderer
 import {ILindenmayerSystemResultProcessor} from "./ILindenmayerSystemResultProcessor";
 import {LindenmayerSystemResultBoundaryCalculatorFactory} from "./LindenmayerSystemResultBoundaryCalculatorFactory";
 import {LindenmayerSystemResultRendererFactory} from "./LindenmayerSystemResultRendererFactory";
+import {LindenmayerSystemLibrary} from "./LindenmayerSystemLibrary";
+import {LindenmayerSystemLibraryDefinition} from "./LindenmayerSystemDefinition";
+import {LindenmayerSystemRule} from "./LindenmayerSystemDefinition";
 
 
 @Component({
     selector: 'my-app',
     template: `
+        <div>
+            <select [(ng-model)]="selectedPredefinedDefinition" (ng-model-change)="loadAndRender()">
+                <option *ng-for="#definition of library">{{definition.title}}</option>
+             </select>
+        </div>
         <div><label>Axiom:</label><input [(ng-model)]="lindenmayerSystemDefinition.axiom"></div>
         <div><label>Constants:</label><input [(ng-model)]="lindenmayerSystemDefinition.constants"></div>
         <div><label>Turning Angle:</label><input type="number" [(ng-model)]="lindenmayerSystemDefinition.turningAngle"></div>
@@ -43,9 +51,9 @@ import {LindenmayerSystemResultRendererFactory} from "./LindenmayerSystemResultR
     directives: [CORE_DIRECTIVES, FORM_DIRECTIVES]
 })
 class AppComponent {
-
     constructor(_lindenmayerSystemRulesProcessor:LindenmayerSystemRulesProcessor,
                 _lindenmayerSystemValidator:LindenmayerSystemValidator,
+                _lindenmayerSystemLibrary:LindenmayerSystemLibrary,
                 _lindenmayerSystemResultBoundaryCalculatorFactory:LindenmayerSystemResultBoundaryCalculatorFactory,
                 _lindenmayerSystemResultRendererFactory:LindenmayerSystemResultRendererFactory) {
         this.lindenmayerSystemRulesProcessor = _lindenmayerSystemRulesProcessor;
@@ -53,16 +61,10 @@ class AppComponent {
         this.lindenmayerSystemResultBoundaryCalculatorFactory = _lindenmayerSystemResultBoundaryCalculatorFactory;
         this.lindenmayerSystemResultRendererFactory = _lindenmayerSystemResultRendererFactory;
 
+        this.library = _lindenmayerSystemLibrary.definitions;
         this.lindenmayerSystemDefinition = new LindenmayerSystemDefinition();
-
-        // TODO: TEMP
-        this.lindenmayerSystemDefinition.axiom = "F";
-        this.lindenmayerSystemDefinition.constants = "+-";
-        this.lindenmayerSystemDefinition.startDirection = 90;
-        this.lindenmayerSystemDefinition.turningAngle = 90;
-        this.lindenmayerSystemDefinition.addRule();
-        this.lindenmayerSystemDefinition.rules[0].input = "F";
-        this.lindenmayerSystemDefinition.rules[0].output = "F+F-F-F+F";
+        this.selectedPredefinedDefinition = this.library[0].title;
+        this.loadAndRender();
     }
 
     private lindenmayerSystemRulesProcessor:LindenmayerSystemRulesProcessor;
@@ -72,6 +74,8 @@ class AppComponent {
     private lindenmayerSystemDefinition:LindenmayerSystemDefinition;
 
     private iterationCount:number = 3;
+    private library:LindenmayerSystemLibraryDefinition[];
+    private selectedPredefinedDefinition:string;
 
     private processResult(resultProcessor:ILindenmayerSystemResultProcessor, result:string): void {
         for (var char of result) {
@@ -106,15 +110,34 @@ class AppComponent {
         }
     }
 
-    addRule() {
+    addRule(): void {
         this.lindenmayerSystemDefinition.addRule();
     };
 
-    deleteRule(index: number) {
+    deleteRule(index: number): void {
         this.lindenmayerSystemDefinition.deleteRule(index);
     };
 
-    processDefinition() {
+    loadAndRender():void {
+        this.loadFromLibrary();
+        this.processDefinition();
+    };
+
+    loadFromLibrary():void {
+        var chosenDefinition = this.library.filter((x) => x.title === this.selectedPredefinedDefinition)[0];
+
+        this.lindenmayerSystemDefinition.axiom = chosenDefinition.axiom;
+        this.lindenmayerSystemDefinition.constants = chosenDefinition.constants;
+        this.lindenmayerSystemDefinition.startDirection = chosenDefinition.startDirection;
+        this.lindenmayerSystemDefinition.turningAngle = chosenDefinition.turningAngle;
+        this.iterationCount = chosenDefinition.suggestedIterationCount;
+
+        if (chosenDefinition.rules) {
+            this.lindenmayerSystemDefinition.rules = chosenDefinition.rules.map((r) => new LindenmayerSystemRule(r.input, r.output));
+        }
+    }
+
+    processDefinition(): void {
         var canvas = <HTMLCanvasElement> document.getElementById('canvas');
         var canvasContext = canvas.getContext('2d');
         canvasContext.beginPath();
@@ -158,5 +181,6 @@ bootstrap(AppComponent, [
     LindenmayerSystemResultBoundaryCalculatorFactory,
     LindenmayerSystemResultRendererFactory,
     LindenmayerSystemResultBoundaryCalculator,
-    LindenmayerSystemResultRenderer
+    LindenmayerSystemResultRenderer,
+    LindenmayerSystemLibrary
 ]);
