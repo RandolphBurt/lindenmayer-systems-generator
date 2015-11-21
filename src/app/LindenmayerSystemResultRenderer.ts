@@ -31,6 +31,9 @@ export class LindenmayerSystemResultRenderer implements ILindenmayerSystemResult
         this.positionCalculator.move(this.position, distance);
         this.canvasContext.lineTo(this.position.x, this.position.y);
         this.canvasContext.stroke();
+        this.canvasContext.closePath();
+        this.canvasContext.beginPath();
+        this.canvasContext.moveTo(this.position.x, this.position.y);
     }
 
     rotate(angle:number):void {

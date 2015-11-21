@@ -34,6 +34,9 @@ var LindenmayerSystemResultRenderer = (function () {
         this.positionCalculator.move(this.position, distance);
         this.canvasContext.lineTo(this.position.x, this.position.y);
         this.canvasContext.stroke();
+        this.canvasContext.closePath();
+        this.canvasContext.beginPath();
+        this.canvasContext.moveTo(this.position.x, this.position.y);
     };
     LindenmayerSystemResultRenderer.prototype.rotate = function (angle) {
         this.positionCalculator.rotate(this.position, angle);
