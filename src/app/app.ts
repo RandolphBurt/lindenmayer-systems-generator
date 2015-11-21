@@ -43,7 +43,7 @@ import {LindenmayerSystemRule} from "./LindenmayerSystemDefinition";
                 <input type="button" value="Draw" (click)="queueProcessDefinition()">
             </div>
             <div>
-                <canvas id="canvas" class="canvas" width="1000" height="800"></canvas>
+                <canvas id="canvas" class="canvas" width="1000" height="750"></canvas>
             </div>
         </div>
     `,
