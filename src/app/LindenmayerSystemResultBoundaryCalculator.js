@@ -25,6 +25,7 @@ var LindenmayerSystemResultBoundaryCalculator = (function () {
         this.positionCalculator = _positionCalculator;
         this.position = _position;
     }
+    LindenmayerSystemResultBoundaryCalculator.prototype.setColour = function (colour) { };
     LindenmayerSystemResultBoundaryCalculator.prototype.savePosition = function () {
         this.positionStack.push(this.position);
         this.position = new PositionData_1.PositionData(this.position);

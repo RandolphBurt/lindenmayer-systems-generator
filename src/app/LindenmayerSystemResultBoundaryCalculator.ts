@@ -19,6 +19,8 @@ export class LindenmayerSystemResultBoundaryCalculator implements ILindenmayerSy
     minY:number = 0;
     maxY:number = 0;
 
+    setColour(colour:string):void {}
+
     savePosition():void {
         this.positionStack.push(this.position);
         this.position = new PositionData(this.position);

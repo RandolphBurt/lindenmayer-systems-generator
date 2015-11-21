@@ -39,6 +39,15 @@ var AppComponent = (function () {
         for (var _i = 0; _i < result.length; _i++) {
             var char = result[_i];
             switch (char) {
+                case "0":
+                    resultProcessor.setColour("#663300");
+                    break;
+                case "1":
+                    resultProcessor.setColour("#003300");
+                    break;
+                case "2":
+                    resultProcessor.setColour("#008000");
+                    break;
                 case "A":
                 case "B":
                 case "F":
@@ -88,6 +97,7 @@ var AppComponent = (function () {
             var startY = -1 * lindenmayerSystemResultBoundaryCalculator.minY;
             // scale the canvas to fit the size required
             canvasContext.scale(scale, scale);
+            canvasContext.strokeStyle = "#000000";
             // render the results on screen...
             var lindenmayerSystemResultRenderer = this.lindenmayerSystemResultRendererFactory.Create(canvasContext, startX, startY, this.lindenmayerSystemDefinition.startDirection);
             this.processResult(lindenmayerSystemResultRenderer, result);
@@ -99,7 +109,7 @@ var AppComponent = (function () {
     AppComponent = __decorate([
         angular2_1.Component({
             selector: 'my-app',
-            template: "\n        <div><label>Axiom:</label><input [(ng-model)]=\"lindenmayerSystemDefinition.axiom\"></div>\n        <div><label>Constants:</label><input [(ng-model)]=\"lindenmayerSystemDefinition.constants\"></div>\n        <div><label>Turning Angle:</label><input type=\"number\" [(ng-model)]=\"lindenmayerSystemDefinition.turningAngle\"></div>\n        <div *ng-for=\"#rule of lindenmayerSystemDefinition.rules; #i = index\">\n            <label>Rule {{i + 1}}:</label><input [(ng-model)]=\"rule.input\">\n            <span>=&gt;</span>\n            <input [(ng-model)]=\"rule.output\">\n            <input type=\"button\" value=\"X\" (click)=\"deleteRule(i)\">\n        </div>\n        <div>\n            <input type=\"button\" value=\"Add Rule\" (click)=\"addRule()\">\n        </div>\n        <div>\n            <label>Initial direction (Angle):</label><input type=\"number\" [(ng-model)]=\"lindenmayerSystemDefinition.startDirection\">\n        </div>\n        <div>\n            <label>Iteration Count:</label><input type=\"number\" [(ng-model)]=\"iterationCount\">\n            <input type=\"button\" value=\"Draw\" (click)=\"processDefinition()\">\n        </div>\n        <div>\n            <canvas id=\"canvas\" class=\"canvas\" width=\"500\" height=\"500\"></canvas>\n        </div>\n    ",
+            template: "\n        <div><label>Axiom:</label><input [(ng-model)]=\"lindenmayerSystemDefinition.axiom\"></div>\n        <div><label>Constants:</label><input [(ng-model)]=\"lindenmayerSystemDefinition.constants\"></div>\n        <div><label>Turning Angle:</label><input type=\"number\" [(ng-model)]=\"lindenmayerSystemDefinition.turningAngle\"></div>\n        <div *ng-for=\"#rule of lindenmayerSystemDefinition.rules; #i = index\">\n            <label>Rule {{i + 1}}:</label><input [(ng-model)]=\"rule.input\">\n            <span>=&gt;</span>\n            <input [(ng-model)]=\"rule.output\">\n            <input type=\"button\" value=\"X\" (click)=\"deleteRule(i)\">\n        </div>\n        <div>\n            <input type=\"button\" value=\"Add Rule\" (click)=\"addRule()\">\n        </div>\n        <div>\n            <label>Initial direction (Angle):</label><input type=\"number\" [(ng-model)]=\"lindenmayerSystemDefinition.startDirection\">\n        </div>\n        <div>\n            <label>Iteration Count:</label><input type=\"number\" [(ng-model)]=\"iterationCount\">\n            <input type=\"button\" value=\"Draw\" (click)=\"processDefinition()\">\n        </div>\n        <div>\n            <canvas id=\"canvas\" class=\"canvas\" width=\"1000\" height=\"800\"></canvas>\n        </div>\n    ",
             styles: ["\n        .canvas { background-color: grey }\n    "],
             directives: [angular2_1.CORE_DIRECTIVES, angular2_1.FORM_DIRECTIVES]
         }), 

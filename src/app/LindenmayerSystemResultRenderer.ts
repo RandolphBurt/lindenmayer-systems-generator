@@ -27,6 +27,10 @@ export class LindenmayerSystemResultRenderer implements ILindenmayerSystemResult
         this.canvasContext.moveTo(this.position.x, this.position.y);
     }
 
+    setColour(colour:string):void {
+        this.canvasContext.strokeStyle = colour;
+    }
+
     moveForward(distance:number):void {
         this.positionCalculator.move(this.position, distance);
         this.canvasContext.lineTo(this.position.x, this.position.y);

@@ -30,6 +30,9 @@ var LindenmayerSystemResultRenderer = (function () {
         this.position = this.positionStack.pop();
         this.canvasContext.moveTo(this.position.x, this.position.y);
     };
+    LindenmayerSystemResultRenderer.prototype.setColour = function (colour) {
+        this.canvasContext.strokeStyle = colour;
+    };
     LindenmayerSystemResultRenderer.prototype.moveForward = function (distance) {
         this.positionCalculator.move(this.position, distance);
         this.canvasContext.lineTo(this.position.x, this.position.y);

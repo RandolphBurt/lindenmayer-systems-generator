@@ -34,7 +34,7 @@ import {LindenmayerSystemResultRendererFactory} from "./LindenmayerSystemResultR
             <input type="button" value="Draw" (click)="processDefinition()">
         </div>
         <div>
-            <canvas id="canvas" class="canvas" width="500" height="500"></canvas>
+            <canvas id="canvas" class="canvas" width="1000" height="800"></canvas>
         </div>
     `,
     styles: [`
@@ -76,6 +76,15 @@ class AppComponent {
     private processResult(resultProcessor:ILindenmayerSystemResultProcessor, result:string): void {
         for (var char of result) {
             switch (char) {
+                case "0": // brown
+                    resultProcessor.setColour("#663300");
+                    break;
+                case "1": // dark green
+                    resultProcessor.setColour("#003300");
+                    break;
+                case "2": // light green
+                    resultProcessor.setColour("#008000");
+                    break;
                 case "A":
                 case "B":
                 case "F":
@@ -131,6 +140,7 @@ class AppComponent {
 
             // scale the canvas to fit the size required
             canvasContext.scale(scale, scale);
+            canvasContext.strokeStyle  = "#000000";
 
             // render the results on screen...
             var lindenmayerSystemResultRenderer = this.lindenmayerSystemResultRendererFactory.Create(canvasContext, startX, startY, this.lindenmayerSystemDefinition.startDirection);
