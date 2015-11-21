@@ -16,12 +16,13 @@ import {LindenmayerSystemResultRendererFactory} from "./LindenmayerSystemResultR
     template: `
         <div><label>Axiom:</label><input [(ng-model)]="lindenmayerSystemDefinition.axiom"></div>
         <div><label>Constants:</label><input [(ng-model)]="lindenmayerSystemDefinition.constants"></div>
-            <div *ng-for="#rule of lindenmayerSystemDefinition.rules; #i = index">
-                <label>Rule {{i + 1}}:</label><input [(ng-model)]="rule.input">
-                <span>=&gt;</span>
-                <input [(ng-model)]="rule.output">
-                <input type="button" value="X" (click)="deleteRule(i)">
-            </div>
+        <div><label>Turning Angle:</label><input type="number" [(ng-model)]="lindenmayerSystemDefinition.turningAngle"></div>
+        <div *ng-for="#rule of lindenmayerSystemDefinition.rules; #i = index">
+            <label>Rule {{i + 1}}:</label><input [(ng-model)]="rule.input">
+            <span>=&gt;</span>
+            <input [(ng-model)]="rule.output">
+            <input type="button" value="X" (click)="deleteRule(i)">
+        </div>
         <div>
             <input type="button" value="Add Rule" (click)="addRule()">
         </div>
@@ -57,7 +58,8 @@ class AppComponent {
         // TODO: TEMP
         this.lindenmayerSystemDefinition.axiom = "F";
         this.lindenmayerSystemDefinition.constants = "+-";
-        this.lindenmayerSystemDefinition.startDirection = 30;
+        this.lindenmayerSystemDefinition.startDirection = 90;
+        this.lindenmayerSystemDefinition.turningAngle = 90;
         this.lindenmayerSystemDefinition.addRule();
         this.lindenmayerSystemDefinition.rules[0].input = "F";
         this.lindenmayerSystemDefinition.rules[0].output = "F+F-F-F+F";
@@ -74,14 +76,16 @@ class AppComponent {
     private processResult(resultProcessor:ILindenmayerSystemResultProcessor, result:string): void {
         for (var char of result) {
             switch (char) {
+                case "A":
+                case "B":
                 case "F":
                     resultProcessor.moveForward(10);
                     break;
                 case "+":
-                    resultProcessor.rotate(-90);
+                    resultProcessor.rotate(-this.lindenmayerSystemDefinition.turningAngle);
                     break;
                 case "-":
-                    resultProcessor.rotate(90);
+                    resultProcessor.rotate(this.lindenmayerSystemDefinition.turningAngle);
                     break;
             }
         }

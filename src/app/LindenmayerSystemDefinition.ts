@@ -1,6 +1,7 @@
 export class LindenmayerSystemDefinition {
     axiom: string;
     startDirection: number;
+    turningAngle: number;
     constants: string;
     rules: LindenmayerSystemRule[];
 
