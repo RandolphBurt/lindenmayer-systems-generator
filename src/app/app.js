@@ -96,7 +96,7 @@ var AppComponent = (function () {
     };
     AppComponent = __decorate([
         angular2_1.Component({
-            selector: 'my-app',
+            selector: 'lindenmayer-system-editor',
             templateUrl: 'templates/lindenmayer-system.html',
             styles: ["\n        .canvas { background-color: grey }\n        .busy {cursor:wait}\n    "],
             directives: [angular2_1.CORE_DIRECTIVES, angular2_1.FORM_DIRECTIVES]

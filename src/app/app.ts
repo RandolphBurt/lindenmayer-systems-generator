@@ -16,7 +16,7 @@ import {LindenmayerSystemResultParser} from "./LindenmayerSystemResultParser";
 
 
 @Component({
-    selector: 'my-app',
+    selector: 'lindenmayer-system-editor',
     templateUrl: 'templates/lindenmayer-system.html',
     styles: [`
         .canvas { background-color: grey }
