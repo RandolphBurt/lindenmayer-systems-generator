@@ -16,14 +16,16 @@ var LindenmayerSystemValidator_1 = require("./LindenmayerSystemValidator");
 var PositionCalculator_1 = require("./PositionCalculator");
 var LindenmayerSystemResultBoundaryCalculator_1 = require("./LindenmayerSystemResultBoundaryCalculator");
 var LindenmayerSystemResultRenderer_1 = require("./LindenmayerSystemResultRenderer");
+var LindenmayerSystemResultBoundaryCalculatorFactory_1 = require("./LindenmayerSystemResultBoundaryCalculatorFactory");
+var LindenmayerSystemResultRendererFactory_1 = require("./LindenmayerSystemResultRendererFactory");
 var AppComponent = (function () {
-    function AppComponent(_lindenmayerSystemRulesProcessor, _lindenmayerSystemValidator, _lindenmayerSystemResultBoundaryCalculator, _lindenmayerSystemResultRenderer) {
-        this.lindenmayerSystemDefinition = new LindenmayerSystemDefinition_1.LindenmayerSystemDefinition();
+    function AppComponent(_lindenmayerSystemRulesProcessor, _lindenmayerSystemValidator, _lindenmayerSystemResultBoundaryCalculatorFactory, _lindenmayerSystemResultRendererFactory) {
         this.iterationCount = 3;
         this.lindenmayerSystemRulesProcessor = _lindenmayerSystemRulesProcessor;
         this.lindenmayerSystemValidator = _lindenmayerSystemValidator;
-        this.lindenmayerSystemResultBoundaryCalculator = _lindenmayerSystemResultBoundaryCalculator;
-        this.lindenmayerSystemResultRenderer = _lindenmayerSystemResultRenderer;
+        this.lindenmayerSystemResultBoundaryCalculatorFactory = _lindenmayerSystemResultBoundaryCalculatorFactory;
+        this.lindenmayerSystemResultRendererFactory = _lindenmayerSystemResultRendererFactory;
+        this.lindenmayerSystemDefinition = new LindenmayerSystemDefinition_1.LindenmayerSystemDefinition();
         // TODO: TEMP
         this.lindenmayerSystemDefinition.axiom = "F";
         this.lindenmayerSystemDefinition.constants = "+-";
@@ -64,17 +66,21 @@ var AppComponent = (function () {
         canvasContext.closePath();
         var validationResult = this.lindenmayerSystemValidator.validate(this.lindenmayerSystemDefinition);
         if (validationResult.result === true && this.iterationCount > 0) {
+            // Iterate over the axiom and generated results 'iterationCount' times....
             var result = this.lindenmayerSystemRulesProcessor.process(this.lindenmayerSystemDefinition, this.iterationCount);
-            this.lindenmayerSystemResultBoundaryCalculator.initialise();
-            this.processResult(this.lindenmayerSystemResultBoundaryCalculator, result);
-            var diffX = this.lindenmayerSystemResultBoundaryCalculator.maxX - this.lindenmayerSystemResultBoundaryCalculator.minX;
-            var diffY = this.lindenmayerSystemResultBoundaryCalculator.maxY - this.lindenmayerSystemResultBoundaryCalculator.minY;
+            // Calculate the space/rectangular-size required to draw the resultant shape
+            var lindenmayerSystemResultBoundaryCalculator = this.lindenmayerSystemResultBoundaryCalculatorFactory.Create(45);
+            this.processResult(lindenmayerSystemResultBoundaryCalculator, result);
+            var diffX = lindenmayerSystemResultBoundaryCalculator.maxX - lindenmayerSystemResultBoundaryCalculator.minX;
+            var diffY = lindenmayerSystemResultBoundaryCalculator.maxY - lindenmayerSystemResultBoundaryCalculator.minY;
             var scale = Math.min(canvas.width / diffX, canvas.height / diffY);
-            var startX = -1 * this.lindenmayerSystemResultBoundaryCalculator.minX;
-            var startY = -1 * this.lindenmayerSystemResultBoundaryCalculator.minY;
+            var startX = -1 * lindenmayerSystemResultBoundaryCalculator.minX;
+            var startY = -1 * lindenmayerSystemResultBoundaryCalculator.minY;
+            // scale the canvas to fit the size required
             canvasContext.scale(scale, scale);
-            this.lindenmayerSystemResultRenderer.initialise(canvasContext, startX, startY);
-            this.processResult(this.lindenmayerSystemResultRenderer, result);
+            // render the results on screen...
+            var lindenmayerSystemResultRenderer = this.lindenmayerSystemResultRendererFactory.Create(canvasContext, startX, startY, 45);
+            this.processResult(lindenmayerSystemResultRenderer, result);
         }
         else {
         }
@@ -87,7 +93,7 @@ var AppComponent = (function () {
             styles: ["\n        .canvas { background-color: grey }\n    "],
             directives: [angular2_1.CORE_DIRECTIVES, angular2_1.FORM_DIRECTIVES]
         }), 
-        __metadata('design:paramtypes', [LindenmayerSystemRulesProcessor_1.LindenmayerSystemRulesProcessor, LindenmayerSystemValidator_1.LindenmayerSystemValidator, LindenmayerSystemResultBoundaryCalculator_1.LindenmayerSystemResultBoundaryCalculator, LindenmayerSystemResultRenderer_1.LindenmayerSystemResultRenderer])
+        __metadata('design:paramtypes', [LindenmayerSystemRulesProcessor_1.LindenmayerSystemRulesProcessor, LindenmayerSystemValidator_1.LindenmayerSystemValidator, LindenmayerSystemResultBoundaryCalculatorFactory_1.LindenmayerSystemResultBoundaryCalculatorFactory, LindenmayerSystemResultRendererFactory_1.LindenmayerSystemResultRendererFactory])
     ], AppComponent);
     return AppComponent;
 })();
@@ -95,6 +101,8 @@ angular2_1.bootstrap(AppComponent, [
     LindenmayerSystemRulesProcessor_1.LindenmayerSystemRulesProcessor,
     LindenmayerSystemValidator_1.LindenmayerSystemValidator,
     PositionCalculator_1.PositionCalculator,
+    LindenmayerSystemResultBoundaryCalculatorFactory_1.LindenmayerSystemResultBoundaryCalculatorFactory,
+    LindenmayerSystemResultRendererFactory_1.LindenmayerSystemResultRendererFactory,
     LindenmayerSystemResultBoundaryCalculator_1.LindenmayerSystemResultBoundaryCalculator,
     LindenmayerSystemResultRenderer_1.LindenmayerSystemResultRenderer
 ]);

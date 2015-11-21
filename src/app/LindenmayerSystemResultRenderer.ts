@@ -5,25 +5,17 @@ import {PositionCalculator} from "./PositionCalculator";
 import {ILindenmayerSystemResultProcessor} from "./ILindenmayerSystemResultProcessor";
 
 export class LindenmayerSystemResultRenderer implements ILindenmayerSystemResultProcessor {
-    constructor(@Inject(PositionCalculator) _positionCalculator:PositionCalculator) {
+    constructor(@Inject(PositionCalculator) _positionCalculator:PositionCalculator, _canvasContext:CanvasRenderingContext2D, _position:PositionData) {
         this.positionCalculator = _positionCalculator;
+        this.position = _position;
+        this.canvasContext = _canvasContext;
     }
 
     private positionCalculator:PositionCalculator;
-    private position:PositionData = new PositionData();
-    private positionStack:PositionData[] = [];
-
+    private position:PositionData;
     private canvasContext:any;
 
-    // TODO: type of canvasContext
-    initialise(canvasContext:any, x:number, y:number):void {
-        this.canvasContext = canvasContext;
-        this.position = new PositionData();
-        this.position.x = x;
-        this.position.y = y;
-        this.position.facing = 0;
-        this.canvasContext.moveTo(x, y);
-    }
+    private positionStack:PositionData[] = [];
 
     savePosition():void {
         this.positionStack.push(this.position);

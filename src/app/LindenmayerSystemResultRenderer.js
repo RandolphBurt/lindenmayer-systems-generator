@@ -16,20 +16,12 @@ var core_1 = require('angular2/core');
 var PositionData_1 = require("./PositionData");
 var PositionCalculator_1 = require("./PositionCalculator");
 var LindenmayerSystemResultRenderer = (function () {
-    function LindenmayerSystemResultRenderer(_positionCalculator) {
-        this.position = new PositionData_1.PositionData();
+    function LindenmayerSystemResultRenderer(_positionCalculator, _canvasContext, _position) {
         this.positionStack = [];
         this.positionCalculator = _positionCalculator;
+        this.position = _position;
+        this.canvasContext = _canvasContext;
     }
-    // TODO: type of canvasContext
-    LindenmayerSystemResultRenderer.prototype.initialise = function (canvasContext, x, y) {
-        this.canvasContext = canvasContext;
-        this.position = new PositionData_1.PositionData();
-        this.position.x = x;
-        this.position.y = y;
-        this.position.facing = 0;
-        this.canvasContext.moveTo(x, y);
-    };
     LindenmayerSystemResultRenderer.prototype.savePosition = function () {
         this.positionStack.push(this.position);
         this.position = new PositionData_1.PositionData(this.position);
@@ -48,7 +40,7 @@ var LindenmayerSystemResultRenderer = (function () {
     };
     LindenmayerSystemResultRenderer = __decorate([
         __param(0, core_1.Inject(PositionCalculator_1.PositionCalculator)), 
-        __metadata('design:paramtypes', [PositionCalculator_1.PositionCalculator])
+        __metadata('design:paramtypes', [PositionCalculator_1.PositionCalculator, CanvasRenderingContext2D, PositionData_1.PositionData])
     ], LindenmayerSystemResultRenderer);
     return LindenmayerSystemResultRenderer;
 })();

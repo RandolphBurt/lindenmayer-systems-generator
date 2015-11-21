@@ -5,27 +5,19 @@ import {PositionCalculator} from "./PositionCalculator";
 import {PositionData} from "./PositionData";
 
 export class LindenmayerSystemResultBoundaryCalculator implements ILindenmayerSystemResultProcessor {
-    constructor(@Inject(PositionCalculator) _positionCalculator:PositionCalculator) {
+    constructor(@Inject(PositionCalculator) _positionCalculator:PositionCalculator, _position:PositionData ) {
         this.positionCalculator = _positionCalculator;
-        this.initialise();
+        this.position = _position;
     }
 
     private positionCalculator:PositionCalculator;
     private position:PositionData;
     private positionStack:PositionData[] = [];
 
-    minX:number;
-    maxX:number;
-    minY:number;
-    maxY:number;
-
-    initialise():void {
-        this.minX = 0;
-        this.maxX = 0;
-        this.minY = 0;
-        this.maxY = 0;
-        this.position = new PositionData();
-    }
+    minX:number = 0;
+    maxX:number = 0;
+    minY:number = 0;
+    maxY:number = 0;
 
     savePosition():void {
         this.positionStack.push(this.position);
@@ -56,4 +48,3 @@ export class LindenmayerSystemResultBoundaryCalculator implements ILindenmayerSy
         this.positionCalculator.rotate(this.position, angle);
     }
 }
-
