@@ -9,18 +9,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var angular2_1 = require('angular2/angular2');
-var LindenmayerSystemDefinition_1 = require('./LindenmayerSystemDefinition');
-var LindenmayerSystemRulesProcessor_1 = require('./LindenmayerSystemRulesProcessor');
-var LindenmayerSystemValidator_1 = require("./LindenmayerSystemValidator");
-var PositionCalculator_1 = require("./PositionCalculator");
-var LindenmayerSystemResultBoundaryCalculator_1 = require("./LindenmayerSystemResultBoundaryCalculator");
-var LindenmayerSystemResultRenderer_1 = require("./LindenmayerSystemResultRenderer");
-var LindenmayerSystemResultBoundaryCalculatorFactory_1 = require("./LindenmayerSystemResultBoundaryCalculatorFactory");
-var LindenmayerSystemResultRendererFactory_1 = require("./LindenmayerSystemResultRendererFactory");
-var LindenmayerSystemLibrary_1 = require("./LindenmayerSystemLibrary");
-var LindenmayerSystemDefinition_2 = require("./LindenmayerSystemDefinition");
-var LindenmayerSystemResultParser_1 = require("./LindenmayerSystemResultParser");
+var angular2_d_ts_1 = require('../../../node_modules/angular2/angular2.d.ts');
+var LindenmayerSystemRulesProcessor_1 = require("../LindenmayerSystemRulesProcessor");
+var LindenmayerSystemValidator_1 = require("../LindenmayerSystemValidator");
+var LindenmayerSystemLibrary_1 = require("../LindenmayerSystemLibrary");
+var LindenmayerSystemResultBoundaryCalculatorFactory_1 = require("../LindenmayerSystemResultBoundaryCalculatorFactory");
+var LindenmayerSystemResultRendererFactory_1 = require("../LindenmayerSystemResultRendererFactory");
+var LindenmayerSystemResultParser_1 = require("../LindenmayerSystemResultParser");
+var LindenmayerSystemDefinition_1 = require("../LindenmayerSystemDefinition");
+var LindenmayerSystemDefinition_2 = require("../LindenmayerSystemDefinition");
 var DefinitionEditor = (function () {
     function DefinitionEditor(_lindenmayerSystemRulesProcessor, _lindenmayerSystemValidator, _lindenmayerSystemLibrary, _lindenmayerSystemResultBoundaryCalculatorFactory, _lindenmayerSystemResultRendererFactory, _lindenmayerSystemResultParser) {
         this.showBusy = false;
@@ -95,40 +92,15 @@ var DefinitionEditor = (function () {
         }, 100);
     };
     DefinitionEditor = __decorate([
-        angular2_1.Component({
+        angular2_d_ts_1.Component({
             selector: 'definition-editor',
             templateUrl: 'templates/definition-editor.html',
             styles: ["\n        .canvas { background-color: grey }\n        .busy {cursor:wait}\n    "],
-            directives: [angular2_1.CORE_DIRECTIVES, angular2_1.FORM_DIRECTIVES]
+            directives: [angular2_d_ts_1.CORE_DIRECTIVES, angular2_d_ts_1.FORM_DIRECTIVES]
         }), 
         __metadata('design:paramtypes', [LindenmayerSystemRulesProcessor_1.LindenmayerSystemRulesProcessor, LindenmayerSystemValidator_1.LindenmayerSystemValidator, LindenmayerSystemLibrary_1.LindenmayerSystemLibrary, LindenmayerSystemResultBoundaryCalculatorFactory_1.LindenmayerSystemResultBoundaryCalculatorFactory, LindenmayerSystemResultRendererFactory_1.LindenmayerSystemResultRendererFactory, LindenmayerSystemResultParser_1.LindenmayerSystemResultParser])
     ], DefinitionEditor);
     return DefinitionEditor;
 })();
 exports.DefinitionEditor = DefinitionEditor;
-var AppComponent = (function () {
-    function AppComponent() {
-    }
-    AppComponent = __decorate([
-        angular2_1.Component({
-            selector: 'lindenmayer-system',
-            template: '<definition-editor></definition-editor>',
-            directives: [DefinitionEditor, angular2_1.CORE_DIRECTIVES, angular2_1.FORM_DIRECTIVES]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], AppComponent);
-    return AppComponent;
-})();
-exports.AppComponent = AppComponent;
-angular2_1.bootstrap(AppComponent, [
-    LindenmayerSystemRulesProcessor_1.LindenmayerSystemRulesProcessor,
-    LindenmayerSystemValidator_1.LindenmayerSystemValidator,
-    PositionCalculator_1.PositionCalculator,
-    LindenmayerSystemResultBoundaryCalculatorFactory_1.LindenmayerSystemResultBoundaryCalculatorFactory,
-    LindenmayerSystemResultRendererFactory_1.LindenmayerSystemResultRendererFactory,
-    LindenmayerSystemResultBoundaryCalculator_1.LindenmayerSystemResultBoundaryCalculator,
-    LindenmayerSystemResultRenderer_1.LindenmayerSystemResultRenderer,
-    LindenmayerSystemLibrary_1.LindenmayerSystemLibrary,
-    LindenmayerSystemResultParser_1.LindenmayerSystemResultParser
-]);
-//# sourceMappingURL=app.js.map
+//# sourceMappingURL=DefinitionEditor.js.map

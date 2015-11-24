@@ -1,18 +1,14 @@
-import {bootstrap, Component, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
+import {Component, CORE_DIRECTIVES, FORM_DIRECTIVES} from '../../node_modules/angular2/angular2.d.ts';
 
-import {LindenmayerSystemDefinition} from './LindenmayerSystemDefinition'
-import {LindenmayerSystemRulesProcessor} from './LindenmayerSystemRulesProcessor'
-import {LindenmayerSystemValidator} from "./LindenmayerSystemValidator";
-import {PositionCalculator} from "./PositionCalculator";
-import {LindenmayerSystemResultBoundaryCalculator} from "./LindenmayerSystemResultBoundaryCalculator";
-import {LindenmayerSystemResultRenderer} from "./LindenmayerSystemResultRenderer";
-import {ILindenmayerSystemResultProcessor} from "./ILindenmayerSystemResultProcessor";
-import {LindenmayerSystemResultBoundaryCalculatorFactory} from "./LindenmayerSystemResultBoundaryCalculatorFactory";
-import {LindenmayerSystemResultRendererFactory} from "./LindenmayerSystemResultRendererFactory";
-import {LindenmayerSystemLibrary} from "./LindenmayerSystemLibrary";
-import {LindenmayerSystemLibraryDefinition} from "./LindenmayerSystemDefinition";
-import {LindenmayerSystemRule} from "./LindenmayerSystemDefinition";
-import {LindenmayerSystemResultParser} from "./LindenmayerSystemResultParser";
+import {LindenmayerSystemRulesProcessor} from "LindenmayerSystemRulesProcessor";
+import {LindenmayerSystemValidator} from "LindenmayerSystemValidator";
+import {LindenmayerSystemLibrary} from "LindenmayerSystemLibrary";
+import {LindenmayerSystemResultBoundaryCalculatorFactory} from "LindenmayerSystemResultBoundaryCalculatorFactory";
+import {LindenmayerSystemResultRendererFactory} from "LindenmayerSystemResultRendererFactory";
+import {LindenmayerSystemResultParser} from "LindenmayerSystemResultParser";
+import {LindenmayerSystemDefinition} from "LindenmayerSystemDefinition";
+import {LindenmayerSystemLibraryDefinition} from "LindenmayerSystemDefinition";
+import {LindenmayerSystemRule} from "LindenmayerSystemDefinition";
 
 @Component({
     selector: 'definition-editor',
@@ -122,25 +118,3 @@ export class DefinitionEditor {
         }, 100);
     }
 }
-
-@Component({
-    selector: 'lindenmayer-system',
-    template: '<definition-editor></definition-editor>',
-    directives: [DefinitionEditor, CORE_DIRECTIVES, FORM_DIRECTIVES]
-})
-
-export class AppComponent {
-
-}
-
-bootstrap(AppComponent, [
-    LindenmayerSystemRulesProcessor,
-    LindenmayerSystemValidator,
-    PositionCalculator,
-    LindenmayerSystemResultBoundaryCalculatorFactory,
-    LindenmayerSystemResultRendererFactory,
-    LindenmayerSystemResultBoundaryCalculator,
-    LindenmayerSystemResultRenderer,
-    LindenmayerSystemLibrary,
-    LindenmayerSystemResultParser
-]);
