@@ -68,7 +68,6 @@ var LindenmayerSystemValidator = (function () {
             if (definition.rules.filter(function (r) { return r.input === testRule.input; }).length > 1) {
                 var error = "There are multiple rules with the same input value of '" + testRule.input + "'";
                 if (errorList.indexOf(error) === -1) {
-                    // we'll get the same error raised twice (e.g. A.input === B.input and vice versa) so we only add once
                     errorList.push(error);
                 }
             }

@@ -13,7 +13,9 @@ import {LindenmayerSystemLibrary} from "./LindenmayerSystemLibrary";
 import {LindenmayerSystemLibraryDefinition} from "./LindenmayerSystemDefinition";
 import {LindenmayerSystemRule} from "./LindenmayerSystemDefinition";
 import {LindenmayerSystemResultParser} from "./LindenmayerSystemResultParser";
+import {DefinitionEditor} from "./DefinitionEditor";
 
+/*
 @Component({
     selector: 'definition-editor',
     templateUrl: 'templates/definition-editor.html',
@@ -122,7 +124,7 @@ export class DefinitionEditor {
         }, 100);
     }
 }
-
+*/
 @Component({
     selector: 'lindenmayer-system',
     template: '<definition-editor></definition-editor>',

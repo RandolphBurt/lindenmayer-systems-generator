@@ -9,15 +9,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var angular2_d_ts_1 = require('../../../node_modules/angular2/angular2.d.ts');
-var LindenmayerSystemRulesProcessor_1 = require("../LindenmayerSystemRulesProcessor");
-var LindenmayerSystemValidator_1 = require("../LindenmayerSystemValidator");
-var LindenmayerSystemLibrary_1 = require("../LindenmayerSystemLibrary");
-var LindenmayerSystemResultBoundaryCalculatorFactory_1 = require("../LindenmayerSystemResultBoundaryCalculatorFactory");
-var LindenmayerSystemResultRendererFactory_1 = require("../LindenmayerSystemResultRendererFactory");
-var LindenmayerSystemResultParser_1 = require("../LindenmayerSystemResultParser");
-var LindenmayerSystemDefinition_1 = require("../LindenmayerSystemDefinition");
-var LindenmayerSystemDefinition_2 = require("../LindenmayerSystemDefinition");
+var angular2_1 = require('angular2/angular2');
+var LindenmayerSystemRulesProcessor_1 = require("./LindenmayerSystemRulesProcessor");
+var LindenmayerSystemValidator_1 = require("./LindenmayerSystemValidator");
+var LindenmayerSystemLibrary_1 = require("./LindenmayerSystemLibrary");
+var LindenmayerSystemResultBoundaryCalculatorFactory_1 = require("./LindenmayerSystemResultBoundaryCalculatorFactory");
+var LindenmayerSystemResultRendererFactory_1 = require("./LindenmayerSystemResultRendererFactory");
+var LindenmayerSystemResultParser_1 = require("./LindenmayerSystemResultParser");
+var LindenmayerSystemDefinition_1 = require("./LindenmayerSystemDefinition");
+var LindenmayerSystemDefinition_2 = require("./LindenmayerSystemDefinition");
 var DefinitionEditor = (function () {
     function DefinitionEditor(_lindenmayerSystemRulesProcessor, _lindenmayerSystemValidator, _lindenmayerSystemLibrary, _lindenmayerSystemResultBoundaryCalculatorFactory, _lindenmayerSystemResultRendererFactory, _lindenmayerSystemResultParser) {
         this.showBusy = false;
@@ -41,9 +41,7 @@ var DefinitionEditor = (function () {
         canvasContext.closePath();
         var validationResult = this.lindenmayerSystemValidator.validate(this.lindenmayerSystemDefinition);
         if (validationResult.result === true && this.iterationCount > 0) {
-            // Iterate over the axiom and generated results 'iterationCount' times....
             var result = this.lindenmayerSystemRulesProcessor.process(this.lindenmayerSystemDefinition, this.iterationCount);
-            // Calculate the space/rectangular-size required to draw the resultant shape
             var lindenmayerSystemResultBoundaryCalculator = this.lindenmayerSystemResultBoundaryCalculatorFactory.Create();
             this.lindenmayerSystemResultParser.parseResult(lindenmayerSystemResultBoundaryCalculator, this.lindenmayerSystemDefinition, result);
             var diffX = lindenmayerSystemResultBoundaryCalculator.maxX - lindenmayerSystemResultBoundaryCalculator.minX;
@@ -51,10 +49,8 @@ var DefinitionEditor = (function () {
             var scale = Math.min(canvas.width / diffX, canvas.height / diffY);
             var startX = (-1 * lindenmayerSystemResultBoundaryCalculator.minX) + (0.5 * ((canvas.width / scale) - diffX));
             var startY = (-1 * lindenmayerSystemResultBoundaryCalculator.minY) + (0.5 * ((canvas.height / scale) - diffY));
-            // scale the canvas to fit the size required
             canvasContext.scale(scale, scale);
             canvasContext.strokeStyle = "#000000";
-            // render the results on screen...
             var lindenmayerSystemResultRenderer = this.lindenmayerSystemResultRendererFactory.Create(canvasContext, startX, startY);
             this.lindenmayerSystemResultParser.parseResult(lindenmayerSystemResultRenderer, this.lindenmayerSystemDefinition, result);
         }
@@ -92,11 +88,11 @@ var DefinitionEditor = (function () {
         }, 100);
     };
     DefinitionEditor = __decorate([
-        angular2_d_ts_1.Component({
+        angular2_1.Component({
             selector: 'definition-editor',
             templateUrl: 'templates/definition-editor.html',
             styles: ["\n        .canvas { background-color: grey }\n        .busy {cursor:wait}\n    "],
-            directives: [angular2_d_ts_1.CORE_DIRECTIVES, angular2_d_ts_1.FORM_DIRECTIVES]
+            directives: [angular2_1.CORE_DIRECTIVES, angular2_1.FORM_DIRECTIVES]
         }), 
         __metadata('design:paramtypes', [LindenmayerSystemRulesProcessor_1.LindenmayerSystemRulesProcessor, LindenmayerSystemValidator_1.LindenmayerSystemValidator, LindenmayerSystemLibrary_1.LindenmayerSystemLibrary, LindenmayerSystemResultBoundaryCalculatorFactory_1.LindenmayerSystemResultBoundaryCalculatorFactory, LindenmayerSystemResultRendererFactory_1.LindenmayerSystemResultRendererFactory, LindenmayerSystemResultParser_1.LindenmayerSystemResultParser])
     ], DefinitionEditor);

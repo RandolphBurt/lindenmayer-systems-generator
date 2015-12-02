@@ -1,14 +1,14 @@
-import {Component, CORE_DIRECTIVES, FORM_DIRECTIVES} from '../../node_modules/angular2/angular2.d.ts';
+import {Component, CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/angular2';
 
-import {LindenmayerSystemRulesProcessor} from "LindenmayerSystemRulesProcessor";
-import {LindenmayerSystemValidator} from "LindenmayerSystemValidator";
-import {LindenmayerSystemLibrary} from "LindenmayerSystemLibrary";
-import {LindenmayerSystemResultBoundaryCalculatorFactory} from "LindenmayerSystemResultBoundaryCalculatorFactory";
-import {LindenmayerSystemResultRendererFactory} from "LindenmayerSystemResultRendererFactory";
-import {LindenmayerSystemResultParser} from "LindenmayerSystemResultParser";
-import {LindenmayerSystemDefinition} from "LindenmayerSystemDefinition";
-import {LindenmayerSystemLibraryDefinition} from "LindenmayerSystemDefinition";
-import {LindenmayerSystemRule} from "LindenmayerSystemDefinition";
+import {LindenmayerSystemRulesProcessor} from "./LindenmayerSystemRulesProcessor";
+import {LindenmayerSystemValidator} from "./LindenmayerSystemValidator";
+import {LindenmayerSystemLibrary} from "./LindenmayerSystemLibrary";
+import {LindenmayerSystemResultBoundaryCalculatorFactory} from "./LindenmayerSystemResultBoundaryCalculatorFactory";
+import {LindenmayerSystemResultRendererFactory} from "./LindenmayerSystemResultRendererFactory";
+import {LindenmayerSystemResultParser} from "./LindenmayerSystemResultParser";
+import {LindenmayerSystemDefinition} from "./LindenmayerSystemDefinition";
+import {LindenmayerSystemLibraryDefinition} from "./LindenmayerSystemDefinition";
+import {LindenmayerSystemRule} from "./LindenmayerSystemDefinition";
 
 @Component({
     selector: 'definition-editor',
