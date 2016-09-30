@@ -5,7 +5,7 @@ import { LindenmayerSystemLibraryDefinition } from './data-definitions/lindenmay
 import { LindenmayerSystemDefinition } from './data-definitions/lindenmayer-system-definition';
 import { LindenmayerSystemRule } from './data-definitions/lindenmayer-system-rule';
 import { DefinitionValidator } from './validation/definition-validator';
-import { LindenmayerSystemRulesProcessor } from './result-processing/rules-processor';
+import { RulesProcessor } from './result-processing/rules-processor';
 import { ResultBoundaryCalculatorFactory } from './result-processing/result-boundary-calculator-factory'; 
 import { ResultRendererFactory } from './result-processing/result-renderer-factory'; 
 import { ResultParser } from './result-processing/result-parser';
@@ -17,13 +17,13 @@ import { ResultParser } from './result-processing/result-parser';
   providers: []
 })
 export class AppComponent {
-  constructor(_rulesProcessor:LindenmayerSystemRulesProcessor,
+  constructor(_rulesProcessor:RulesProcessor,
               _definitionValidator:DefinitionValidator,
               _definitionLibrary:DefinitionLibrary,
               _resultBoundaryCalculatorFactory:ResultBoundaryCalculatorFactory,
               _resultRendererFactory:ResultRendererFactory,
               _resultParser:ResultParser) {
-      this.lindenmayerSystemRulesProcessor = _rulesProcessor;
+      this.rulesProcessor = _rulesProcessor;
       this.definitionVAlidator = _definitionValidator;
       this.resultBoundaryCalculatorFactory = _resultBoundaryCalculatorFactory;
       this.resultRendererFactory = _resultRendererFactory;
@@ -36,7 +36,7 @@ export class AppComponent {
   }
 
   private resultParser:ResultParser;
-  private lindenmayerSystemRulesProcessor:LindenmayerSystemRulesProcessor;
+  private rulesProcessor:RulesProcessor;
   private definitionVAlidator:DefinitionValidator;
   private resultBoundaryCalculatorFactory:ResultBoundaryCalculatorFactory;
   private resultRendererFactory:ResultRendererFactory;
@@ -57,7 +57,7 @@ export class AppComponent {
       var validationResult = this.definitionVAlidator.validate(this.lindenmayerSystemDefinition);
       if (validationResult.result === true && this.iterationCount > 0) {
           // Iterate over the axiom and generated results 'iterationCount' times....
-          var result = this.lindenmayerSystemRulesProcessor.process(this.lindenmayerSystemDefinition, this.iterationCount);
+          var result = this.rulesProcessor.process(this.lindenmayerSystemDefinition, this.iterationCount);
 
           // Calculate the space/rectangular-size required to draw the resultant shape
           var lindenmayerSystemResultBoundaryCalculator = this.resultBoundaryCalculatorFactory.Create();

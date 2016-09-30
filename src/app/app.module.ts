@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 
 import { DefinitionLibrary } from './definition-library';
 import { DefinitionValidator } from './validation/definition-validator';
-import { LindenmayerSystemRulesProcessor } from './result-processing/rules-processor';
+import { RulesProcessor } from './result-processing/rules-processor';
 import { ResultBoundaryCalculatorFactory } from './result-processing/result-boundary-calculator-factory'; 
 import { ResultRendererFactory } from './result-processing/result-renderer-factory'; 
 import { ResultParser } from './result-processing/result-parser';
@@ -23,7 +23,7 @@ import { PositionCalculator } from './position-calculator';
     HttpModule
   ],
   providers: [
-      LindenmayerSystemRulesProcessor, 
+      RulesProcessor, 
       DefinitionValidator,
       DefinitionLibrary,
       ResultBoundaryCalculatorFactory,

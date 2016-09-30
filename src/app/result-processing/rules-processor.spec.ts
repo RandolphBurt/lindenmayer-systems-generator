@@ -1,11 +1,8 @@
 /* tslint:disable:no-unused-variable */
 
-import { addProviders, async, inject } from '@angular/core/testing';
 import { RulesProcessor } from './rules-processor';
-
 import {LindenmayerSystemDefinition} from "../data-definitions/lindenmayer-system-definition";
 import {LindenmayerSystemRule} from "../data-definitions/lindenmayer-system-rule";
-
 
 describe('RulesProcessor', () => {
     describe('process', () => {
