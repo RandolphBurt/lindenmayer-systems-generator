@@ -1,0 +1,26 @@
+<div [ngClass]="{busy: showBusy, default: !showBusy}">
+    <div>
+        <select [(ngModel)]="selectedPredefinedDefinition" (ngModelChange)="loadAndRender()">
+            <option *ngFor="let definition of libraryDefinitions">{{definition.title}}</option>
+        </select>
+    </div>
+    <div><label>Axiom:</label><input [(ngModel)]="lindenmayerSystemDefinition.axiom"></div>
+    <div><label>Constants:</label><input [(ngModel)]="lindenmayerSystemDefinition.constants"></div>
+    <div><label>Turning Angle:</label><input type="number" [(ngModel)]="lindenmayerSystemDefinition.turningAngle"></div>
+    <div *ngFor="let rule of lindenmayerSystemDefinition.rules; let i = index">
+        <label>Rule {{i + 1}}:</label><input [(ngModel)]="rule.input">
+        <span>=&gt;</span>
+        <input [(ngModel)]="rule.output">
+        <input type="button" value="X" (click)="deleteRule(i)">
+    </div>
+    <div>
+        <input type="button" value="Add Rule" (click)="addRule()">
+    </div>
+    <div>
+        <label>Iteration Count:</label><input type="number" [(ngModel)]="iterationCount">
+        <input type="button" value="Draw" (click)="queueProcessDefinition()">
+    </div>
+    <div>
+        <canvas id="canvas" class="canvas" width="1000" height="750"></canvas>
+    </div>
+</div>
