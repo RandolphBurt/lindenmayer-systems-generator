@@ -5,12 +5,12 @@ import { PositionData } from './position-data';
 @Injectable()
 export class PositionCalculator {
 
-    move(position:PositionData, distance:number) {
+    move(position: PositionData, distance: number) {
         position.x += distance * Math.sin(position.facing * Math.PI / 180);
         position.y += distance * Math.cos(position.facing * Math.PI / 180);
     }
 
-    rotate(position:PositionData, angle:number) {
+    rotate(position: PositionData, angle: number) {
         position.facing += angle;
 
         while (position.facing < 0) {

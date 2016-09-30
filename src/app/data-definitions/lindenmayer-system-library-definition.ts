@@ -5,9 +5,9 @@ import { LindenmayerSystemRule } from './lindenmayer-system-rule';
 @Injectable()
 export class LindenmayerSystemLibraryDefinition extends LindenmayerSystemDefinition {
     title: string;
-    suggestedIterationCount:number;
+    suggestedIterationCount: number;
 
-    constructor(_title:string, _suggestedIterationCount:number, _axiom:string, _constants:string, _turningAngle:number, _rules:LindenmayerSystemRule[]) {
+    constructor(_title: string, _suggestedIterationCount: number, _axiom: string, _constants: string, _turningAngle: number, _rules: LindenmayerSystemRule[]) {
         super();
         this.title = _title;
         this.suggestedIterationCount = _suggestedIterationCount;

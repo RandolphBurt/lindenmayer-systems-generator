@@ -1,5 +1,9 @@
 export class PositionData {
-    constructor(copyPosition?:PositionData) {
+    x: number;
+    y: number;
+    facing: number;
+
+    constructor(copyPosition?: PositionData) {
         if (copyPosition) {
             this.x = copyPosition.x;
             this.y = copyPosition.y;
@@ -10,8 +14,4 @@ export class PositionData {
             this.x = this.y = 0;
         }
     }
-
-    x: number;
-    y: number;
-    facing: number;
 }

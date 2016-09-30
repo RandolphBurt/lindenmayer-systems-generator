@@ -3,31 +3,31 @@ import { PositionCalculator } from '../position-calculator';
 import { PositionData } from '../position-data';
 
 export class ResultBoundaryCalculator implements IResultProcessor {
-    constructor(_positionCalculator:PositionCalculator) {
+    private positionCalculator: PositionCalculator;
+    private position: PositionData = new PositionData();
+    private positionStack: PositionData[] = [];
+
+    minX: number = 0;
+    maxX: number = 0;
+    minY: number = 0;
+    maxY: number = 0;
+
+    constructor(_positionCalculator: PositionCalculator) {
         this.positionCalculator = _positionCalculator;
     }
 
-    private positionCalculator:PositionCalculator;
-    private position:PositionData = new PositionData();
-    private positionStack:PositionData[] = [];
+    setColour(colour: string): void {}
 
-    minX:number = 0;
-    maxX:number = 0;
-    minY:number = 0;
-    maxY:number = 0;
-
-    setColour(colour:string):void {}
-
-    savePosition():void {
+    savePosition(): void {
         this.positionStack.push(this.position);
         this.position = new PositionData(this.position);
     }
 
-    restorePosition():void {
+    restorePosition(): void {
         this.position = this.positionStack.pop();
     }
 
-    moveForward(distance:number):void {
+    moveForward(distance: number): void {
         this.positionCalculator.move(this.position, distance);
 
         if (this.position.x < this.minX) {
@@ -43,7 +43,7 @@ export class ResultBoundaryCalculator implements IResultProcessor {
         }
     }
 
-    rotate(angle:number):void {
+    rotate(angle: number): void {
         this.positionCalculator.rotate(this.position, angle);
     }
 }

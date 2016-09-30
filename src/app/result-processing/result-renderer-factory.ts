@@ -5,15 +5,15 @@ import { PositionCalculator } from '../position-calculator';
 import { PositionData } from '../position-data';
 
 export class ResultRendererFactory {
-    constructor(@Inject(PositionCalculator) _positionCalculator:PositionCalculator) {
+    private positionCalculator: PositionCalculator;
+
+    constructor(@Inject(PositionCalculator) _positionCalculator: PositionCalculator) {
         this.positionCalculator = _positionCalculator;
     }
 
-    private positionCalculator:PositionCalculator;
+    Create(canvasContext: any, x: number, y: number): ResultRenderer {
 
-    Create(canvasContext:any, x:number, y:number):ResultRenderer {
-
-        var position = new PositionData();
+        let position = new PositionData();
         position.x = x;
         position.y = y;
         canvasContext.moveTo(x, y);

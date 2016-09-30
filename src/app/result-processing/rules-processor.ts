@@ -2,8 +2,8 @@ import { LindenmayerSystemDefinition } from '../data-definitions/lindenmayer-sys
 
 export class RulesProcessor {
 
-    private processCharacter(definition:LindenmayerSystemDefinition) {
-        return (c:string) => {
+    private processCharacter(definition: LindenmayerSystemDefinition) {
+        return (c: string) => {
             if (definition.constants && definition.constants.indexOf(c) > -1) {
                 return c;
             } else {
@@ -12,17 +12,17 @@ export class RulesProcessor {
         };
     }
 
-    private processSequence(definition:LindenmayerSystemDefinition, sequence:string) {
+    private processSequence(definition: LindenmayerSystemDefinition, sequence: string) {
         return sequence
-            .split("")
+            .split('')
             .map(this.processCharacter(definition))
-            .join("");
+            .join('');
     }
 
-    process(definition:LindenmayerSystemDefinition, iterationCount:number) :string {
-        var result = definition.axiom;
+    process(definition: LindenmayerSystemDefinition, iterationCount: number): string {
+        let result = definition.axiom;
 
-        for (var i = 0; i < iterationCount; i++) {
+        for (let i = 0; i < iterationCount; i++) {
             result = this.processSequence(definition, result);
         }
 
